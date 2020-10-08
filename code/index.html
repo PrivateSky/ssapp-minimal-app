@@ -10,19 +10,16 @@
 </head>
 
 <body>
-    <psk-app-root>
-        <header>
-            <img class="cardinal-logo" width="38px" height="38px" src="/resources/images/cardinal.png" />
-            <app-menu></app-menu>
-        </header>
-        <section>
-            <psk-app-router failRedirectTo="/home"></psk-app-router>
-        </section>
-    </psk-app-root>
+<psk-app-root>
+    <section>
+        <psk-app-router failRedirectTo="/home"></psk-app-router>
+    </section>
+</psk-app-root>
 
-    <script src="/scripts/bundles/webshims.js"></script>
-    <script src="/scripts/bundles/pskruntime.js"></script>
-    <script type="module" src="/cardinal/cardinal.esm.js"></script>
+<script src="/scripts/bundles/hostBoot.js"></script>
+<script src="/scripts/bundles/webshims.js"></script>
+<script src="/scripts/bundles/pskruntime.js"></script>
+<script type="module" src="/cardinal/cardinal.esm.js"></script>
 </body>
 
 </html>

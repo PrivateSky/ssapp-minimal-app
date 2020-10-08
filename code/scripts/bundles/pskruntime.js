@@ -1,7 +1,7 @@
 pskruntimeRequire=(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({"@msgpack/msgpack":[function(require,module,exports){
 !function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.MessagePack=t():e.MessagePack=t()}(this,(function(){return function(e){var t={};function r(n){if(t[n])return t[n].exports;var i=t[n]={i:n,l:!1,exports:{}};return e[n].call(i.exports,i,i.exports,r),i.l=!0,i.exports}return r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var i in e)r.d(n,i,function(t){return e[t]}.bind(null,i));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="",r(r.s=0)}([function(e,t,r){"use strict";r.r(t),r.d(t,"encode",(function(){return I})),r.d(t,"decode",(function(){return N})),r.d(t,"decodeAsync",(function(){return Y})),r.d(t,"decodeArrayStream",(function(){return Z})),r.d(t,"decodeStream",(function(){return $})),r.d(t,"Decoder",(function(){return V})),r.d(t,"Encoder",(function(){return L})),r.d(t,"ExtensionCodec",(function(){return S})),r.d(t,"ExtData",(function(){return p})),r.d(t,"EXT_TIMESTAMP",(function(){return w})),r.d(t,"encodeDateToTimeSpec",(function(){return g})),r.d(t,"encodeTimeSpecToTimestamp",(function(){return v})),r.d(t,"decodeTimestampToTimeSpec",(function(){return x})),r.d(t,"encodeTimestampExtension",(function(){return b})),r.d(t,"decodeTimestampExtension",(function(){return U}));var n=function(e,t){var r="function"==typeof Symbol&&e[Symbol.iterator];if(!r)return e;var n,i,o=r.call(e),s=[];try{for(;(void 0===t||t-- >0)&&!(n=o.next()).done;)s.push(n.value)}catch(e){i={error:e}}finally{try{n&&!n.done&&(r=o.return)&&r.call(o)}finally{if(i)throw i.error}}return s},i=function(){for(var e=[],t=0;t<arguments.length;t++)e=e.concat(n(arguments[t]));return e},o="undefined"!=typeof process&&"undefined"!=typeof TextEncoder&&"undefined"!=typeof TextDecoder;function s(e){for(var t=e.length,r=0,n=0;n<t;){var i=e.charCodeAt(n++);if(0!=(4294967168&i))if(0==(4294965248&i))r+=2;else{if(i>=55296&&i<=56319&&n<t){var o=e.charCodeAt(n);56320==(64512&o)&&(++n,i=((1023&i)<<10)+(1023&o)+65536)}r+=0==(4294901760&i)?3:4}else r++}return r}var a=o?new TextEncoder:void 0,h="undefined"!=typeof process?200:0;var u=(null==a?void 0:a.encodeInto)?function(e,t,r){a.encodeInto(e,t.subarray(r))}:function(e,t,r){t.set(a.encode(e),r)};function c(e,t,r){for(var n=t,o=n+r,s=[],a="";n<o;){var h=e[n++];if(0==(128&h))s.push(h);else if(192==(224&h)){var u=63&e[n++];s.push((31&h)<<6|u)}else if(224==(240&h)){u=63&e[n++];var c=63&e[n++];s.push((31&h)<<12|u<<6|c)}else if(240==(248&h)){var f=(7&h)<<18|(u=63&e[n++])<<12|(c=63&e[n++])<<6|63&e[n++];f>65535&&(f-=65536,s.push(f>>>10&1023|55296),f=56320|1023&f),s.push(f)}else s.push(h);s.length>=4096&&(a+=String.fromCharCode.apply(String,i(s)),s.length=0)}return s.length>0&&(a+=String.fromCharCode.apply(String,i(s))),a}var f=o?new TextDecoder:null,l="undefined"!=typeof process?200:0;var p=function(e,t){this.type=e,this.data=t};function d(e,t,r){var n=Math.floor(r/4294967296),i=r;e.setUint32(t,n),e.setUint32(t+4,i)}function y(e,t){return 4294967296*e.getInt32(t)+e.getUint32(t+4)}var w=-1;function v(e){var t=e.sec,r=e.nsec;if(t>=0&&r>=0&&t<=17179869183){if(0===r&&t<=4294967295){var n=new Uint8Array(4);return(s=new DataView(n.buffer)).setUint32(0,t),n}var i=t/4294967296,o=4294967295&t;n=new Uint8Array(8);return(s=new DataView(n.buffer)).setUint32(0,r<<2|3&i),s.setUint32(4,o),n}var s;n=new Uint8Array(12);return(s=new DataView(n.buffer)).setUint32(0,r),d(s,4,t),n}function g(e){var t=e.getTime(),r=Math.floor(t/1e3),n=1e6*(t-1e3*r),i=Math.floor(n/1e9);return{sec:r+i,nsec:n-1e9*i}}function b(e){return e instanceof Date?v(g(e)):null}function x(e){var t=new DataView(e.buffer,e.byteOffset,e.byteLength);switch(e.byteLength){case 4:return{sec:t.getUint32(0),nsec:0};case 8:var r=t.getUint32(0);return{sec:4294967296*(3&r)+t.getUint32(4),nsec:r>>>2};case 12:return{sec:y(t,4),nsec:t.getUint32(0)};default:throw new Error("Unrecognized data size for timestamp: "+e.length)}}function U(e){var t=x(e);return new Date(1e3*t.sec+t.nsec/1e6)}var m={type:w,encode:b,decode:U},S=function(){function e(){this.builtInEncoders=[],this.builtInDecoders=[],this.encoders=[],this.decoders=[],this.register(m)}return e.prototype.register=function(e){var t=e.type,r=e.encode,n=e.decode;if(t>=0)this.encoders[t]=r,this.decoders[t]=n;else{var i=1+t;this.builtInEncoders[i]=r,this.builtInDecoders[i]=n}},e.prototype.tryToEncode=function(e,t){for(var r=0;r<this.builtInEncoders.length;r++){if(null!=(n=this.builtInEncoders[r]))if(null!=(i=n(e,t)))return new p(-1-r,i)}for(r=0;r<this.encoders.length;r++){var n,i;if(null!=(n=this.encoders[r]))if(null!=(i=n(e,t)))return new p(r,i)}return e instanceof p?e:null},e.prototype.decode=function(e,t,r){var n=t<0?this.builtInDecoders[-1-t]:this.decoders[t];return n?n(e,t,r):new p(t,e)},e.defaultCodec=new e,e}();function E(e){return e instanceof Uint8Array?e:ArrayBuffer.isView(e)?new Uint8Array(e.buffer,e.byteOffset,e.byteLength):e instanceof ArrayBuffer?new Uint8Array(e):Uint8Array.from(e)}var B=function(e){var t="function"==typeof Symbol&&Symbol.iterator,r=t&&e[t],n=0;if(r)return r.call(e);if(e&&"number"==typeof e.length)return{next:function(){return e&&n>=e.length&&(e=void 0),{value:e&&e[n++],done:!e}}};throw new TypeError(t?"Object is not iterable.":"Symbol.iterator is not defined.")},L=function(){function e(e,t,r,n,i,o,s){void 0===e&&(e=S.defaultCodec),void 0===r&&(r=100),void 0===n&&(n=2048),void 0===i&&(i=!1),void 0===o&&(o=!1),void 0===s&&(s=!1),this.extensionCodec=e,this.context=t,this.maxDepth=r,this.initialBufferSize=n,this.sortKeys=i,this.forceFloat32=o,this.ignoreUndefined=s,this.pos=0,this.view=new DataView(new ArrayBuffer(this.initialBufferSize)),this.bytes=new Uint8Array(this.view.buffer)}return e.prototype.encode=function(e,t){if(t>this.maxDepth)throw new Error("Too deep objects in depth "+t);null==e?this.encodeNil():"boolean"==typeof e?this.encodeBoolean(e):"number"==typeof e?this.encodeNumber(e):"string"==typeof e?this.encodeString(e):this.encodeObject(e,t)},e.prototype.getUint8Array=function(){return this.bytes.subarray(0,this.pos)},e.prototype.ensureBufferSizeToWrite=function(e){var t=this.pos+e;this.view.byteLength<t&&this.resizeBuffer(2*t)},e.prototype.resizeBuffer=function(e){var t=new ArrayBuffer(e),r=new Uint8Array(t),n=new DataView(t);r.set(this.bytes),this.view=n,this.bytes=r},e.prototype.encodeNil=function(){this.writeU8(192)},e.prototype.encodeBoolean=function(e){!1===e?this.writeU8(194):this.writeU8(195)},e.prototype.encodeNumber=function(e){Number.isSafeInteger(e)?e>=0?e<128?this.writeU8(e):e<256?(this.writeU8(204),this.writeU8(e)):e<65536?(this.writeU8(205),this.writeU16(e)):e<4294967296?(this.writeU8(206),this.writeU32(e)):(this.writeU8(207),this.writeU64(e)):e>=-32?this.writeU8(224|e+32):e>=-128?(this.writeU8(208),this.writeI8(e)):e>=-32768?(this.writeU8(209),this.writeI16(e)):e>=-2147483648?(this.writeU8(210),this.writeI32(e)):(this.writeU8(211),this.writeI64(e)):this.forceFloat32?(this.writeU8(202),this.writeF32(e)):(this.writeU8(203),this.writeF64(e))},e.prototype.writeStringHeader=function(e){if(e<32)this.writeU8(160+e);else if(e<256)this.writeU8(217),this.writeU8(e);else if(e<65536)this.writeU8(218),this.writeU16(e);else{if(!(e<4294967296))throw new Error("Too long string: "+e+" bytes in UTF-8");this.writeU8(219),this.writeU32(e)}},e.prototype.encodeString=function(e){var t=e.length;if(o&&t>h){var r=s(e);this.ensureBufferSizeToWrite(5+r),this.writeStringHeader(r),u(e,this.bytes,this.pos),this.pos+=r}else{r=s(e);this.ensureBufferSizeToWrite(5+r),this.writeStringHeader(r),function(e,t,r){for(var n=e.length,i=r,o=0;o<n;){var s=e.charCodeAt(o++);if(0!=(4294967168&s)){if(0==(4294965248&s))t[i++]=s>>6&31|192;else{if(s>=55296&&s<=56319&&o<n){var a=e.charCodeAt(o);56320==(64512&a)&&(++o,s=((1023&s)<<10)+(1023&a)+65536)}0==(4294901760&s)?(t[i++]=s>>12&15|224,t[i++]=s>>6&63|128):(t[i++]=s>>18&7|240,t[i++]=s>>12&63|128,t[i++]=s>>6&63|128)}t[i++]=63&s|128}else t[i++]=s}}(e,this.bytes,this.pos),this.pos+=r}},e.prototype.encodeObject=function(e,t){var r=this.extensionCodec.tryToEncode(e,this.context);if(null!=r)this.encodeExtension(r);else if(Array.isArray(e))this.encodeArray(e,t);else if(ArrayBuffer.isView(e))this.encodeBinary(e);else{if("object"!=typeof e)throw new Error("Unrecognized object: "+Object.prototype.toString.apply(e));this.encodeMap(e,t)}},e.prototype.encodeBinary=function(e){var t=e.byteLength;if(t<256)this.writeU8(196),this.writeU8(t);else if(t<65536)this.writeU8(197),this.writeU16(t);else{if(!(t<4294967296))throw new Error("Too large binary: "+t);this.writeU8(198),this.writeU32(t)}var r=E(e);this.writeU8a(r)},e.prototype.encodeArray=function(e,t){var r,n,i=e.length;if(i<16)this.writeU8(144+i);else if(i<65536)this.writeU8(220),this.writeU16(i);else{if(!(i<4294967296))throw new Error("Too large array: "+i);this.writeU8(221),this.writeU32(i)}try{for(var o=B(e),s=o.next();!s.done;s=o.next()){var a=s.value;this.encode(a,t+1)}}catch(e){r={error:e}}finally{try{s&&!s.done&&(n=o.return)&&n.call(o)}finally{if(r)throw r.error}}},e.prototype.countWithoutUndefined=function(e,t){var r,n,i=0;try{for(var o=B(t),s=o.next();!s.done;s=o.next()){void 0!==e[s.value]&&i++}}catch(e){r={error:e}}finally{try{s&&!s.done&&(n=o.return)&&n.call(o)}finally{if(r)throw r.error}}return i},e.prototype.encodeMap=function(e,t){var r,n,i=Object.keys(e);this.sortKeys&&i.sort();var o=this.ignoreUndefined?this.countWithoutUndefined(e,i):i.length;if(o<16)this.writeU8(128+o);else if(o<65536)this.writeU8(222),this.writeU16(o);else{if(!(o<4294967296))throw new Error("Too large map object: "+o);this.writeU8(223),this.writeU32(o)}try{for(var s=B(i),a=s.next();!a.done;a=s.next()){var h=a.value,u=e[h];this.ignoreUndefined&&void 0===u||(this.encodeString(h),this.encode(u,t+1))}}catch(e){r={error:e}}finally{try{a&&!a.done&&(n=s.return)&&n.call(s)}finally{if(r)throw r.error}}},e.prototype.encodeExtension=function(e){var t=e.data.length;if(1===t)this.writeU8(212);else if(2===t)this.writeU8(213);else if(4===t)this.writeU8(214);else if(8===t)this.writeU8(215);else if(16===t)this.writeU8(216);else if(t<256)this.writeU8(199),this.writeU8(t);else if(t<65536)this.writeU8(200),this.writeU16(t);else{if(!(t<4294967296))throw new Error("Too large extension object: "+t);this.writeU8(201),this.writeU32(t)}this.writeI8(e.type),this.writeU8a(e.data)},e.prototype.writeU8=function(e){this.ensureBufferSizeToWrite(1),this.view.setUint8(this.pos,e),this.pos++},e.prototype.writeU8a=function(e){var t=e.length;this.ensureBufferSizeToWrite(t),this.bytes.set(e,this.pos),this.pos+=t},e.prototype.writeI8=function(e){this.ensureBufferSizeToWrite(1),this.view.setInt8(this.pos,e),this.pos++},e.prototype.writeU16=function(e){this.ensureBufferSizeToWrite(2),this.view.setUint16(this.pos,e),this.pos+=2},e.prototype.writeI16=function(e){this.ensureBufferSizeToWrite(2),this.view.setInt16(this.pos,e),this.pos+=2},e.prototype.writeU32=function(e){this.ensureBufferSizeToWrite(4),this.view.setUint32(this.pos,e),this.pos+=4},e.prototype.writeI32=function(e){this.ensureBufferSizeToWrite(4),this.view.setInt32(this.pos,e),this.pos+=4},e.prototype.writeF32=function(e){this.ensureBufferSizeToWrite(4),this.view.setFloat32(this.pos,e),this.pos+=4},e.prototype.writeF64=function(e){this.ensureBufferSizeToWrite(8),this.view.setFloat64(this.pos,e),this.pos+=8},e.prototype.writeU64=function(e){this.ensureBufferSizeToWrite(8),function(e,t,r){var n=r/4294967296,i=r;e.setUint32(t,n),e.setUint32(t+4,i)}(this.view,this.pos,e),this.pos+=8},e.prototype.writeI64=function(e){this.ensureBufferSizeToWrite(8),d(this.view,this.pos,e),this.pos+=8},e}(),A={};function I(e,t){void 0===t&&(t=A);var r=new L(t.extensionCodec,t.context,t.maxDepth,t.initialBufferSize,t.sortKeys,t.forceFloat32,t.ignoreUndefined);return r.encode(e,1),r.getUint8Array()}function T(e){return(e<0?"-":"")+"0x"+Math.abs(e).toString(16).padStart(2,"0")}var k=function(){function e(e,t){void 0===e&&(e=16),void 0===t&&(t=16),this.maxKeyLength=e,this.maxLengthPerKey=t,this.caches=[];for(var r=0;r<this.maxKeyLength;r++)this.caches.push([])}return e.prototype.canBeCached=function(e){return e>0&&e<=this.maxKeyLength},e.prototype.get=function(e,t,r){var n=this.caches[r-1],i=n.length;e:for(var o=0;o<i;o++){for(var s=n[o],a=s.bytes,h=0;h<r;h++)if(a[h]!==e[t+h])continue e;return s.value}return null},e.prototype.store=function(e,t){var r=this.caches[e.length-1],n={bytes:e,value:t};r.length>=this.maxLengthPerKey?r[Math.random()*r.length|0]=n:r.push(n)},e.prototype.decode=function(e,t,r){var n=this.get(e,t,r);if(null!=n)return n;var i=c(e,t,r),o=Uint8Array.prototype.slice.call(e,t,t+r);return this.store(o,i),i},e}(),M=function(e,t,r,n){return new(r||(r=Promise))((function(i,o){function s(e){try{h(n.next(e))}catch(e){o(e)}}function a(e){try{h(n.throw(e))}catch(e){o(e)}}function h(e){var t;e.done?i(e.value):(t=e.value,t instanceof r?t:new r((function(e){e(t)}))).then(s,a)}h((n=n.apply(e,t||[])).next())}))},z=function(e,t){var r,n,i,o,s={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return o={next:a(0),throw:a(1),return:a(2)},"function"==typeof Symbol&&(o[Symbol.iterator]=function(){return this}),o;function a(o){return function(a){return function(o){if(r)throw new TypeError("Generator is already executing.");for(;s;)try{if(r=1,n&&(i=2&o[0]?n.return:o[0]?n.throw||((i=n.return)&&i.call(n),0):n.next)&&!(i=i.call(n,o[1])).done)return i;switch(n=0,i&&(o=[2&o[0],i.value]),o[0]){case 0:case 1:i=o;break;case 4:return s.label++,{value:o[1],done:!1};case 5:s.label++,n=o[1],o=[0];continue;case 7:o=s.ops.pop(),s.trys.pop();continue;default:if(!(i=s.trys,(i=i.length>0&&i[i.length-1])||6!==o[0]&&2!==o[0])){s=0;continue}if(3===o[0]&&(!i||o[1]>i[0]&&o[1]<i[3])){s.label=o[1];break}if(6===o[0]&&s.label<i[1]){s.label=i[1],i=o;break}if(i&&s.label<i[2]){s.label=i[2],s.ops.push(o);break}i[2]&&s.ops.pop(),s.trys.pop();continue}o=t.call(e,s)}catch(e){o=[6,e],n=0}finally{r=i=0}if(5&o[0])throw o[1];return{value:o[0]?o[1]:void 0,done:!0}}([o,a])}}},C=function(e){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var t,r=e[Symbol.asyncIterator];return r?r.call(e):(e="function"==typeof __values?__values(e):e[Symbol.iterator](),t={},n("next"),n("throw"),n("return"),t[Symbol.asyncIterator]=function(){return this},t);function n(r){t[r]=e[r]&&function(t){return new Promise((function(n,i){(function(e,t,r,n){Promise.resolve(n).then((function(t){e({value:t,done:r})}),t)})(n,i,(t=e[r](t)).done,t.value)}))}}},D=function(e){return this instanceof D?(this.v=e,this):new D(e)},P=function(e,t,r){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var n,i=r.apply(e,t||[]),o=[];return n={},s("next"),s("throw"),s("return"),n[Symbol.asyncIterator]=function(){return this},n;function s(e){i[e]&&(n[e]=function(t){return new Promise((function(r,n){o.push([e,t,r,n])>1||a(e,t)}))})}function a(e,t){try{(r=i[e](t)).value instanceof D?Promise.resolve(r.value.v).then(h,u):c(o[0][2],r)}catch(e){c(o[0][3],e)}var r}function h(e){a("next",e)}function u(e){a("throw",e)}function c(e,t){e(t),o.shift(),o.length&&a(o[0][0],o[0][1])}},j=new DataView(new ArrayBuffer(0)),F=new Uint8Array(j.buffer),W=function(){try{j.getInt8(0)}catch(e){return e.constructor}throw new Error("never reached")}(),O=new W("Insufficient data"),K=new k,V=function(){function e(e,t,r,n,i,o,s,a){void 0===e&&(e=S.defaultCodec),void 0===r&&(r=4294967295),void 0===n&&(n=4294967295),void 0===i&&(i=4294967295),void 0===o&&(o=4294967295),void 0===s&&(s=4294967295),void 0===a&&(a=K),this.extensionCodec=e,this.context=t,this.maxStrLength=r,this.maxBinLength=n,this.maxArrayLength=i,this.maxMapLength=o,this.maxExtLength=s,this.cachedKeyDecoder=a,this.totalPos=0,this.pos=0,this.view=j,this.bytes=F,this.headByte=-1,this.stack=[]}return e.prototype.setBuffer=function(e){this.bytes=E(e),this.view=function(e){if(e instanceof ArrayBuffer)return new DataView(e);var t=E(e);return new DataView(t.buffer,t.byteOffset,t.byteLength)}(this.bytes),this.pos=0},e.prototype.appendBuffer=function(e){if(-1!==this.headByte||this.hasRemaining()){var t=this.bytes.subarray(this.pos),r=E(e),n=new Uint8Array(t.length+r.length);n.set(t),n.set(r,t.length),this.setBuffer(n)}else this.setBuffer(e)},e.prototype.hasRemaining=function(e){return void 0===e&&(e=1),this.view.byteLength-this.pos>=e},e.prototype.createNoExtraBytesError=function(e){var t=this.view,r=this.pos;return new RangeError("Extra "+(t.byteLength-r)+" byte(s) found at buffer["+e+"]")},e.prototype.decodeSingleSync=function(){var e=this.decodeSync();if(this.hasRemaining())throw this.createNoExtraBytesError(this.pos);return e},e.prototype.decodeSingleAsync=function(e){var t,r,n,i;return M(this,void 0,void 0,(function(){var o,s,a,h,u,c,f,l;return z(this,(function(p){switch(p.label){case 0:o=!1,p.label=1;case 1:p.trys.push([1,6,7,12]),t=C(e),p.label=2;case 2:return[4,t.next()];case 3:if((r=p.sent()).done)return[3,5];if(a=r.value,o)throw this.createNoExtraBytesError(this.totalPos);this.appendBuffer(a);try{s=this.decodeSync(),o=!0}catch(e){if(!(e instanceof W))throw e}this.totalPos+=this.pos,p.label=4;case 4:return[3,2];case 5:return[3,12];case 6:return h=p.sent(),n={error:h},[3,12];case 7:return p.trys.push([7,,10,11]),r&&!r.done&&(i=t.return)?[4,i.call(t)]:[3,9];case 8:p.sent(),p.label=9;case 9:return[3,11];case 10:if(n)throw n.error;return[7];case 11:return[7];case 12:if(o){if(this.hasRemaining())throw this.createNoExtraBytesError(this.totalPos);return[2,s]}throw c=(u=this).headByte,f=u.pos,l=u.totalPos,new RangeError("Insufficient data in parcing "+T(c)+" at "+l+" ("+f+" in the current buffer)")}}))}))},e.prototype.decodeArrayStream=function(e){return this.decodeMultiAsync(e,!0)},e.prototype.decodeStream=function(e){return this.decodeMultiAsync(e,!1)},e.prototype.decodeMultiAsync=function(e,t){return P(this,arguments,(function(){var r,n,i,o,s,a,h,u,c;return z(this,(function(f){switch(f.label){case 0:r=t,n=-1,f.label=1;case 1:f.trys.push([1,13,14,19]),i=C(e),f.label=2;case 2:return[4,D(i.next())];case 3:if((o=f.sent()).done)return[3,12];if(s=o.value,t&&0===n)throw this.createNoExtraBytesError(this.totalPos);this.appendBuffer(s),r&&(n=this.readArraySize(),r=!1,this.complete()),f.label=4;case 4:f.trys.push([4,9,,10]),f.label=5;case 5:return[4,D(this.decodeSync())];case 6:return[4,f.sent()];case 7:return f.sent(),0==--n?[3,8]:[3,5];case 8:return[3,10];case 9:if(!((a=f.sent())instanceof W))throw a;return[3,10];case 10:this.totalPos+=this.pos,f.label=11;case 11:return[3,2];case 12:return[3,19];case 13:return h=f.sent(),u={error:h},[3,19];case 14:return f.trys.push([14,,17,18]),o&&!o.done&&(c=i.return)?[4,D(c.call(i))]:[3,16];case 15:f.sent(),f.label=16;case 16:return[3,18];case 17:if(u)throw u.error;return[7];case 18:return[7];case 19:return[2]}}))}))},e.prototype.decodeSync=function(){e:for(;;){var e=this.readHeadByte(),t=void 0;if(e>=224)t=e-256;else if(e<192)if(e<128)t=e;else if(e<144){if(0!==(n=e-128)){this.pushMapState(n),this.complete();continue e}t={}}else if(e<160){if(0!==(n=e-144)){this.pushArrayState(n),this.complete();continue e}t=[]}else{var r=e-160;t=this.decodeUtf8String(r,0)}else if(192===e)t=null;else if(194===e)t=!1;else if(195===e)t=!0;else if(202===e)t=this.readF32();else if(203===e)t=this.readF64();else if(204===e)t=this.readU8();else if(205===e)t=this.readU16();else if(206===e)t=this.readU32();else if(207===e)t=this.readU64();else if(208===e)t=this.readI8();else if(209===e)t=this.readI16();else if(210===e)t=this.readI32();else if(211===e)t=this.readI64();else if(217===e){r=this.lookU8();t=this.decodeUtf8String(r,1)}else if(218===e){r=this.lookU16();t=this.decodeUtf8String(r,2)}else if(219===e){r=this.lookU32();t=this.decodeUtf8String(r,4)}else if(220===e){if(0!==(n=this.readU16())){this.pushArrayState(n),this.complete();continue e}t=[]}else if(221===e){if(0!==(n=this.readU32())){this.pushArrayState(n),this.complete();continue e}t=[]}else if(222===e){if(0!==(n=this.readU16())){this.pushMapState(n),this.complete();continue e}t={}}else if(223===e){if(0!==(n=this.readU32())){this.pushMapState(n),this.complete();continue e}t={}}else if(196===e){var n=this.lookU8();t=this.decodeBinary(n,1)}else if(197===e){n=this.lookU16();t=this.decodeBinary(n,2)}else if(198===e){n=this.lookU32();t=this.decodeBinary(n,4)}else if(212===e)t=this.decodeExtension(1,0);else if(213===e)t=this.decodeExtension(2,0);else if(214===e)t=this.decodeExtension(4,0);else if(215===e)t=this.decodeExtension(8,0);else if(216===e)t=this.decodeExtension(16,0);else if(199===e){n=this.lookU8();t=this.decodeExtension(n,1)}else if(200===e){n=this.lookU16();t=this.decodeExtension(n,2)}else{if(201!==e)throw new Error("Unrecognized type byte: "+T(e));n=this.lookU32();t=this.decodeExtension(n,4)}this.complete();for(var i=this.stack;i.length>0;){var o=i[i.length-1];if(0===o.type){if(o.array[o.position]=t,o.position++,o.position!==o.size)continue e;i.pop(),t=o.array}else{if(1===o.type){if(s=void 0,"string"!==(s=typeof t)&&"number"!==s)throw new Error("The type of key must be string or number but "+typeof t);o.key=t,o.type=2;continue e}if(o.map[o.key]=t,o.readCount++,o.readCount!==o.size){o.key=null,o.type=1;continue e}i.pop(),t=o.map}}return t}var s},e.prototype.readHeadByte=function(){return-1===this.headByte&&(this.headByte=this.readU8()),this.headByte},e.prototype.complete=function(){this.headByte=-1},e.prototype.readArraySize=function(){var e=this.readHeadByte();switch(e){case 220:return this.readU16();case 221:return this.readU32();default:if(e<160)return e-144;throw new Error("Unrecognized array type byte: "+T(e))}},e.prototype.pushMapState=function(e){if(e>this.maxMapLength)throw new Error("Max length exceeded: map length ("+e+") > maxMapLengthLength ("+this.maxMapLength+")");this.stack.push({type:1,size:e,key:null,readCount:0,map:{}})},e.prototype.pushArrayState=function(e){if(e>this.maxArrayLength)throw new Error("Max length exceeded: array length ("+e+") > maxArrayLength ("+this.maxArrayLength+")");this.stack.push({type:0,size:e,array:new Array(e),position:0})},e.prototype.decodeUtf8String=function(e,t){var r;if(e>this.maxStrLength)throw new Error("Max length exceeded: UTF-8 byte length ("+e+") > maxStrLength ("+this.maxStrLength+")");if(this.bytes.byteLength<this.pos+t+e)throw O;var n,i=this.pos+t;return n=this.stateIsMapKey()&&(null===(r=this.cachedKeyDecoder)||void 0===r?void 0:r.canBeCached(e))?this.cachedKeyDecoder.decode(this.bytes,i,e):o&&e>l?function(e,t,r){var n=e.subarray(t,t+r);return f.decode(n)}(this.bytes,i,e):c(this.bytes,i,e),this.pos+=t+e,n},e.prototype.stateIsMapKey=function(){return this.stack.length>0&&1===this.stack[this.stack.length-1].type},e.prototype.decodeBinary=function(e,t){if(e>this.maxBinLength)throw new Error("Max length exceeded: bin length ("+e+") > maxBinLength ("+this.maxBinLength+")");if(!this.hasRemaining(e+t))throw O;var r=this.pos+t,n=this.bytes.subarray(r,r+e);return this.pos+=t+e,n},e.prototype.decodeExtension=function(e,t){if(e>this.maxExtLength)throw new Error("Max length exceeded: ext length ("+e+") > maxExtLength ("+this.maxExtLength+")");var r=this.view.getInt8(this.pos+t),n=this.decodeBinary(e,t+1);return this.extensionCodec.decode(n,r,this.context)},e.prototype.lookU8=function(){return this.view.getUint8(this.pos)},e.prototype.lookU16=function(){return this.view.getUint16(this.pos)},e.prototype.lookU32=function(){return this.view.getUint32(this.pos)},e.prototype.readU8=function(){var e=this.view.getUint8(this.pos);return this.pos++,e},e.prototype.readI8=function(){var e=this.view.getInt8(this.pos);return this.pos++,e},e.prototype.readU16=function(){var e=this.view.getUint16(this.pos);return this.pos+=2,e},e.prototype.readI16=function(){var e=this.view.getInt16(this.pos);return this.pos+=2,e},e.prototype.readU32=function(){var e=this.view.getUint32(this.pos);return this.pos+=4,e},e.prototype.readI32=function(){var e=this.view.getInt32(this.pos);return this.pos+=4,e},e.prototype.readU64=function(){var e,t,r=(e=this.view,t=this.pos,4294967296*e.getUint32(t)+e.getUint32(t+4));return this.pos+=8,r},e.prototype.readI64=function(){var e=y(this.view,this.pos);return this.pos+=8,e},e.prototype.readF32=function(){var e=this.view.getFloat32(this.pos);return this.pos+=4,e},e.prototype.readF64=function(){var e=this.view.getFloat64(this.pos);return this.pos+=8,e},e}(),_={};function N(e,t){void 0===t&&(t=_);var r=new V(t.extensionCodec,t.context,t.maxStrLength,t.maxBinLength,t.maxArrayLength,t.maxMapLength,t.maxExtLength);return r.setBuffer(e),r.decodeSingleSync()}var R=function(e,t){var r,n,i,o,s={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return o={next:a(0),throw:a(1),return:a(2)},"function"==typeof Symbol&&(o[Symbol.iterator]=function(){return this}),o;function a(o){return function(a){return function(o){if(r)throw new TypeError("Generator is already executing.");for(;s;)try{if(r=1,n&&(i=2&o[0]?n.return:o[0]?n.throw||((i=n.return)&&i.call(n),0):n.next)&&!(i=i.call(n,o[1])).done)return i;switch(n=0,i&&(o=[2&o[0],i.value]),o[0]){case 0:case 1:i=o;break;case 4:return s.label++,{value:o[1],done:!1};case 5:s.label++,n=o[1],o=[0];continue;case 7:o=s.ops.pop(),s.trys.pop();continue;default:if(!(i=s.trys,(i=i.length>0&&i[i.length-1])||6!==o[0]&&2!==o[0])){s=0;continue}if(3===o[0]&&(!i||o[1]>i[0]&&o[1]<i[3])){s.label=o[1];break}if(6===o[0]&&s.label<i[1]){s.label=i[1],i=o;break}if(i&&s.label<i[2]){s.label=i[2],s.ops.push(o);break}i[2]&&s.ops.pop(),s.trys.pop();continue}o=t.call(e,s)}catch(e){o=[6,e],n=0}finally{r=i=0}if(5&o[0])throw o[1];return{value:o[0]?o[1]:void 0,done:!0}}([o,a])}}},H=function(e){return this instanceof H?(this.v=e,this):new H(e)},G=function(e,t,r){if(!Symbol.asyncIterator)throw new TypeError("Symbol.asyncIterator is not defined.");var n,i=r.apply(e,t||[]),o=[];return n={},s("next"),s("throw"),s("return"),n[Symbol.asyncIterator]=function(){return this},n;function s(e){i[e]&&(n[e]=function(t){return new Promise((function(r,n){o.push([e,t,r,n])>1||a(e,t)}))})}function a(e,t){try{(r=i[e](t)).value instanceof H?Promise.resolve(r.value.v).then(h,u):c(o[0][2],r)}catch(e){c(o[0][3],e)}var r}function h(e){a("next",e)}function u(e){a("throw",e)}function c(e,t){e(t),o.shift(),o.length&&a(o[0][0],o[0][1])}};function X(e){if(null==e)throw new Error("Assertion Failure: value must not be null nor undefined")}function q(e){return null!=e[Symbol.asyncIterator]?e:function(e){return G(this,arguments,(function(){var t,r,n,i;return R(this,(function(o){switch(o.label){case 0:t=e.getReader(),o.label=1;case 1:o.trys.push([1,,9,10]),o.label=2;case 2:return[4,H(t.read())];case 3:return r=o.sent(),n=r.done,i=r.value,n?[4,H(void 0)]:[3,5];case 4:return[2,o.sent()];case 5:return X(i),[4,H(i)];case 6:return[4,o.sent()];case 7:return o.sent(),[3,2];case 8:return[3,10];case 9:return t.releaseLock(),[7];case 10:return[2]}}))}))}(e)}var J=function(e,t,r,n){return new(r||(r=Promise))((function(i,o){function s(e){try{h(n.next(e))}catch(e){o(e)}}function a(e){try{h(n.throw(e))}catch(e){o(e)}}function h(e){var t;e.done?i(e.value):(t=e.value,t instanceof r?t:new r((function(e){e(t)}))).then(s,a)}h((n=n.apply(e,t||[])).next())}))},Q=function(e,t){var r,n,i,o,s={label:0,sent:function(){if(1&i[0])throw i[1];return i[1]},trys:[],ops:[]};return o={next:a(0),throw:a(1),return:a(2)},"function"==typeof Symbol&&(o[Symbol.iterator]=function(){return this}),o;function a(o){return function(a){return function(o){if(r)throw new TypeError("Generator is already executing.");for(;s;)try{if(r=1,n&&(i=2&o[0]?n.return:o[0]?n.throw||((i=n.return)&&i.call(n),0):n.next)&&!(i=i.call(n,o[1])).done)return i;switch(n=0,i&&(o=[2&o[0],i.value]),o[0]){case 0:case 1:i=o;break;case 4:return s.label++,{value:o[1],done:!1};case 5:s.label++,n=o[1],o=[0];continue;case 7:o=s.ops.pop(),s.trys.pop();continue;default:if(!(i=s.trys,(i=i.length>0&&i[i.length-1])||6!==o[0]&&2!==o[0])){s=0;continue}if(3===o[0]&&(!i||o[1]>i[0]&&o[1]<i[3])){s.label=o[1];break}if(6===o[0]&&s.label<i[1]){s.label=i[1],i=o;break}if(i&&s.label<i[2]){s.label=i[2],s.ops.push(o);break}i[2]&&s.ops.pop(),s.trys.pop();continue}o=t.call(e,s)}catch(e){o=[6,e],n=0}finally{r=i=0}if(5&o[0])throw o[1];return{value:o[0]?o[1]:void 0,done:!0}}([o,a])}}};function Y(e,t){return void 0===t&&(t=_),J(this,void 0,void 0,(function(){var r;return Q(this,(function(n){return r=q(e),[2,new V(t.extensionCodec,t.context,t.maxStrLength,t.maxBinLength,t.maxArrayLength,t.maxMapLength,t.maxExtLength).decodeSingleAsync(r)]}))}))}function Z(e,t){void 0===t&&(t=_);var r=q(e);return new V(t.extensionCodec,t.context,t.maxStrLength,t.maxBinLength,t.maxArrayLength,t.maxMapLength,t.maxExtLength).decodeArrayStream(r)}function $(e,t){void 0===t&&(t=_);var r=q(e);return new V(t.extensionCodec,t.context,t.maxStrLength,t.maxBinLength,t.maxArrayLength,t.maxMapLength,t.maxExtLength).decodeStream(r)}}])}));
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\builds\\tmp\\pskruntime_intermediar.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\builds\\tmp\\pskruntime_intermediar.js":[function(require,module,exports){
 (function (global){
 global.pskruntimeLoadModules = function(){ 
 
@@ -67,7 +67,7 @@ if (typeof $$ !== "undefined") {
 require('source-map-support').install({});
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"@msgpack/msgpack":"@msgpack/msgpack","buffer-from":"buffer-from","callflow":"callflow","psk-security-context":"psk-security-context","pskbuffer":"pskbuffer","psklogger":"psklogger","queue":"queue","soundpubsub":"soundpubsub","source-map":"source-map","source-map-support":"source-map-support","swarm-engine":"swarm-engine","swarmutils":"swarmutils","syndicate":"syndicate"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\constants.js":[function(require,module,exports){
+},{"@msgpack/msgpack":"@msgpack/msgpack","buffer-from":"buffer-from","callflow":"callflow","psk-security-context":"psk-security-context","pskbuffer":"pskbuffer","psklogger":"psklogger","queue":"queue","soundpubsub":"soundpubsub","source-map":"source-map","source-map-support":"source-map-support","swarm-engine":"swarm-engine","swarmutils":"swarmutils","syndicate":"syndicate"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\constants.js":[function(require,module,exports){
 $$.CONSTANTS = {
     SWARM_FOR_EXECUTION:"swarm_for_execution",//TODO: remove
     INBOUND:"inbound",//TODO: remove
@@ -89,7 +89,7 @@ $$.CONSTANTS.mixIn = function(otherConstants){
     }
 }
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\InterceptorRegistry.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\InterceptorRegistry.js":[function(require,module,exports){
 (function (global){
 // related to: SwarmSpace.SwarmDescription.createPhase()
 
@@ -284,7 +284,7 @@ exports.createInterceptorRegistry = function () {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\loadLibrary.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\loadLibrary.js":[function(require,module,exports){
 /*
 Initial License: (c) Axiologic Research & Alboaie Sînică.
 Contributors: Axiologic Research , PrivateSky project
@@ -388,7 +388,7 @@ exports.loadLibrary = function(prefixName, folder){
 }
 
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\parallelJoinPoint.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\parallelJoinPoint.js":[function(require,module,exports){
 
 var globalJoinCounter = 0;
 
@@ -525,7 +525,7 @@ exports.createJoinPoint = function(swarm, callback, args){
     jp.__setProxyObject(p);
     return p;
 };
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\serialJoinPoint.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\serialJoinPoint.js":[function(require,module,exports){
 
 var joinCounter = 0;
 
@@ -650,7 +650,7 @@ exports.createSerialJoinPoint = function(swarm, callback, args){
     jp.setProxyObject(p);
     return p;
 }
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\swarmDescription.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\swarmDescription.js":[function(require,module,exports){
 const OwM = require("swarmutils").OwM;
 
 const swarmDescriptionsRegistry = {};
@@ -1017,7 +1017,7 @@ exports.createSwarmEngine = function(swarmType, utils){
 };
 
 
-},{"./utilityFunctions/callflow":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\callflow.js","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\SwarmDebug.js":[function(require,module,exports){
+},{"./utilityFunctions/callflow":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\callflow.js","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\SwarmDebug.js":[function(require,module,exports){
 (function (global){
 /*
  Initial License: (c) Axiologic Research & Alboaie Sînică.
@@ -1216,7 +1216,7 @@ function localLog (logType, message, err) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"fs":false,"util":"util"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\base.js":[function(require,module,exports){
+},{"fs":false,"util":"util"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\base.js":[function(require,module,exports){
 var beesHealer = require("swarmutils").beesHealer;
 var swarmDebug = require("./SwarmDebug");
 
@@ -1348,12 +1348,12 @@ exports.createForObject = function(valueObject, thisObject, localId){
 
 };
 
-},{"../parallelJoinPoint":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\parallelJoinPoint.js","../serialJoinPoint":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\serialJoinPoint.js","./SwarmDebug":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\SwarmDebug.js","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\callflow.js":[function(require,module,exports){
+},{"../parallelJoinPoint":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\parallelJoinPoint.js","../serialJoinPoint":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\serialJoinPoint.js","./SwarmDebug":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\SwarmDebug.js","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\callflow.js":[function(require,module,exports){
 exports.createForObject = function(valueObject, thisObject, localId){
 	var ret = require("./base").createForObject(valueObject, thisObject, localId);
 	return ret;
 };
-},{"./base":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\base.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\index.js":[function(require,module,exports){
+},{"./base":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\base.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\index.js":[function(require,module,exports){
 //to look nice the requireModule on Node
 require("./lib/psk-abstract-client");
 const or = require('overwrite-require');
@@ -1362,7 +1362,7 @@ if ($$.environmentType === or.constants.BROWSER_ENVIRONMENT_TYPE) {
 } else {
 	require("./lib/psk-node-client");
 }
-},{"./lib/psk-abstract-client":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-abstract-client.js","./lib/psk-browser-client":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-browser-client.js","./lib/psk-node-client":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-node-client.js","overwrite-require":"overwrite-require"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-abstract-client.js":[function(require,module,exports){
+},{"./lib/psk-abstract-client":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-abstract-client.js","./lib/psk-browser-client":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-browser-client.js","./lib/psk-node-client":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-node-client.js","overwrite-require":"overwrite-require"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-abstract-client.js":[function(require,module,exports){
 /**********************  utility class **********************************/
 function RequestManager(pollingTimeOut) {
     if (!pollingTimeOut) {
@@ -1839,7 +1839,7 @@ $$.apihub.createConnection = function(alias, url, ssi){
     return $$.apihub.connections[alias];
 }
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-browser-client.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-browser-client.js":[function(require,module,exports){
 (function (Buffer){
 function generateMethodForRequestWithData(httpMethod) {
     return function (url, data, callback) {
@@ -1977,7 +1977,7 @@ $$.remote.base64Decode = function base64Decode(encodedString){
 
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":"buffer"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-node-client.js":[function(require,module,exports){
+},{"buffer":"buffer"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-node-client.js":[function(require,module,exports){
 (function (Buffer){
 require("./psk-abstract-client");
 
@@ -2165,21 +2165,21 @@ $$.remote.base64Decode = function base64Decode(encodedString){
 
 }).call(this,require("buffer").Buffer)
 
-},{"./psk-abstract-client":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-abstract-client.js","buffer":"buffer","http":false,"https":false,"url":false}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\Agent.js":[function(require,module,exports){
+},{"./psk-abstract-client":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\lib\\psk-abstract-client.js","buffer":"buffer","http":false,"https":false,"url":false}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\Agent.js":[function(require,module,exports){
 function Agent(agentId, publicKey){
     this.agentId = agentId;
     this.publicKey = publicKey;
 }
 
 module.exports = Agent;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\EncryptedSecret.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\EncryptedSecret.js":[function(require,module,exports){
 function EncryptedSecret(encryptedData, agentId){
     this.encryptedData = encryptedData;
     this.agentId = agentId;
 }
 
 module.exports = EncryptedSecret;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\PSKSignature.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\PSKSignature.js":[function(require,module,exports){
 function PSKSignature(message, signature, type, agentId) {
     this.message = message;
     this.signature = signature;
@@ -2188,7 +2188,7 @@ function PSKSignature(message, signature, type, agentId) {
 }
 
 module.exports = PSKSignature;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\RawCSBSecurityContext.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\RawCSBSecurityContext.js":[function(require,module,exports){
 function RawCSBSecurityContext(parentSecurityContext) {
     this.generateIdentity = parentSecurityContext.generateIdentity;
     this.getCurrentAgentIdentity = parentSecurityContext.getCurrentAgentIdentity;
@@ -2200,7 +2200,7 @@ function RawCSBSecurityContext(parentSecurityContext) {
 }
 
 module.exports = RawCSBSecurityContext;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\RootCSBSecurityContext.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\RootCSBSecurityContext.js":[function(require,module,exports){
 const SecurityContext = require("./SecurityContext");
 
 function RootCSBSecurityContext() {
@@ -2216,7 +2216,7 @@ function RootCSBSecurityContext() {
 }
 
 module.exports = RootCSBSecurityContext;
-},{"./SecurityContext":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\SecurityContext.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\SecurityContext.js":[function(require,module,exports){
+},{"./SecurityContext":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\SecurityContext.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\SecurityContext.js":[function(require,module,exports){
 const crypto = require("pskcrypto");
 const swarmUtils = require("swarmutils");
 const PSKSignature = require("./PSKSignature");
@@ -2325,7 +2325,7 @@ function SecurityContext() {
 
 module.exports = SecurityContext;
 
-},{"./Agent":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\Agent.js","./EncryptedSecret":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\EncryptedSecret.js","./PSKSignature":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\PSKSignature.js","pskcrypto":"pskcrypto","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\pskbuffer\\lib\\PSKBuffer.js":[function(require,module,exports){
+},{"./Agent":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\Agent.js","./EncryptedSecret":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\EncryptedSecret.js","./PSKSignature":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\PSKSignature.js","pskcrypto":"pskcrypto","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\pskbuffer\\lib\\PSKBuffer.js":[function(require,module,exports){
 function PSKBuffer() {}
 
 function getArrayBufferInterface () {
@@ -2388,7 +2388,7 @@ PSKBuffer.alloc = function(size) {
 };
 
 module.exports = PSKBuffer;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\GenericLoggerClient.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\GenericLoggerClient.js":[function(require,module,exports){
 const LogFactory = require('./LogFactory');
 
 /**
@@ -2450,7 +2450,7 @@ function GenericLoggerClient(messagePublisher) {
 
 module.exports = GenericLoggerClient;
 
-},{"./LogFactory":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LogFactory.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LogFactory.js":[function(require,module,exports){
+},{"./LogFactory":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LogFactory.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LogFactory.js":[function(require,module,exports){
 function getTime() {
     const envTypes = require("overwrite-require").constants;
     switch($$.environmentType) {
@@ -2485,7 +2485,7 @@ module.exports = {
     createEvent
 };
 
-},{"overwrite-require":"overwrite-require"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerClient.js":[function(require,module,exports){
+},{"overwrite-require":"overwrite-require"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerClient.js":[function(require,module,exports){
 const GenericLoggerClient = require('./GenericLoggerClient');
 const LogLevel = require('../utils/LogLevel');
 const LoggerInterface = require('./LoggerInterface');
@@ -2546,7 +2546,7 @@ function LoggerClient(messagePublisher) {
 
 module.exports = LoggerClient;
 
-},{"../utils/LogLevel":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\LogLevel.js","./GenericLoggerClient":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\GenericLoggerClient.js","./LoggerInterface":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerInterface.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerInterface.js":[function(require,module,exports){
+},{"../utils/LogLevel":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\LogLevel.js","./GenericLoggerClient":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\GenericLoggerClient.js","./LoggerInterface":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerInterface.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerInterface.js":[function(require,module,exports){
 /**
  * @interface
  */
@@ -2566,7 +2566,7 @@ function LoggerInterface() {
 
 module.exports = LoggerInterface;
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\index.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\index.js":[function(require,module,exports){
 const GenericLoggerClient = require('./GenericLoggerClient');
 const LogFactory          = require('./LogFactory');
 const LoggerClient        = require('./LoggerClient');
@@ -2580,7 +2580,7 @@ module.exports = {
     LoggerInterface
 };
 
-},{"./GenericLoggerClient":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\GenericLoggerClient.js","./LogFactory":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LogFactory.js","./LoggerClient":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerClient.js","./LoggerInterface":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerInterface.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisher.js":[function(require,module,exports){
+},{"./GenericLoggerClient":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\GenericLoggerClient.js","./LogFactory":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LogFactory.js","./LoggerClient":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerClient.js","./LoggerInterface":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\LoggerInterface.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisher.js":[function(require,module,exports){
 const TransportInterface = require('./TransportInterface');
 const utils = require('../utils');
 const zeroMQModuleName = "zeromq";
@@ -2628,7 +2628,7 @@ function MessagePublisher(address) {
 
 module.exports = MessagePublisher;
 
-},{"../utils":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\index.js","./TransportInterface":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisherForSandbox.js":[function(require,module,exports){
+},{"../utils":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\index.js","./TransportInterface":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisherForSandbox.js":[function(require,module,exports){
 (function (global){
 const TransportInterface = require('./TransportInterface');
 
@@ -2664,7 +2664,7 @@ module.exports = MessagePublisherForSandbox;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./TransportInterface":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js":[function(require,module,exports){
+},{"./TransportInterface":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js":[function(require,module,exports){
 /**
  *
  * @interface
@@ -2677,7 +2677,7 @@ function TransportInterface() {
 
 module.exports = TransportInterface;
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\index.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\index.js":[function(require,module,exports){
 const TransportInterface = require('./TransportInterface');
 const MessagePublisher = require('./MessagePublisher');
 const MessagePublisherForSandbox = require('./MessagePublisherForSandbox');
@@ -2688,7 +2688,7 @@ module.exports = {
     MessagePublisherForSandbox
 };
 
-},{"./MessagePublisher":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisher.js","./MessagePublisherForSandbox":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisherForSandbox.js","./TransportInterface":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\MessageSubscriber.js":[function(require,module,exports){
+},{"./MessagePublisher":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisher.js","./MessagePublisherForSandbox":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\MessagePublisherForSandbox.js","./TransportInterface":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\TransportInterface.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\MessageSubscriber.js":[function(require,module,exports){
 const zeroMQModuleName = "zeromq";
 const zeroMQ = require(zeroMQModuleName);
 
@@ -2727,12 +2727,12 @@ function MessageSubscriber(address, subscriptions, onMessageCallback) {
 
 module.exports = MessageSubscriber;
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\index.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\index.js":[function(require,module,exports){
 const MessageSubscriber = require('./MessageSubscriber');
 
 module.exports = {MessageSubscriber};
 
-},{"./MessageSubscriber":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\MessageSubscriber.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\GenericPSKLogger.js":[function(require,module,exports){
+},{"./MessageSubscriber":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\MessageSubscriber.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\GenericPSKLogger.js":[function(require,module,exports){
 (function (global){
 const LoggerClientModule = require('../LoggerClient');
 
@@ -2815,7 +2815,7 @@ module.exports = GenericPSKLogger;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"../LoggerClient":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\index.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\index.js":[function(require,module,exports){
+},{"../LoggerClient":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\LoggerClient\\index.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\index.js":[function(require,module,exports){
 const Configurator     = require('../utils/Configurator');
 const GenericPSKLogger = require('./GenericPSKLogger');
 
@@ -2838,7 +2838,7 @@ module.exports = {
     getLogger
 };
 
-},{"../MessagePublisher":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\index.js","../utils/Configurator":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\Configurator.js","./GenericPSKLogger":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\GenericPSKLogger.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\PubSubProxy.js":[function(require,module,exports){
+},{"../MessagePublisher":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\index.js","../utils/Configurator":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\Configurator.js","./GenericPSKLogger":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\GenericPSKLogger.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\PubSubProxy.js":[function(require,module,exports){
 const zeroMQModuleName = "zeromq";
 const zeroMQ = require(zeroMQModuleName);
 const utils = require('../utils');
@@ -2895,12 +2895,12 @@ function PubSubProxy({addressForPublishers, addressForSubscribers}) {
 
 module.exports = PubSubProxy;
 
-},{"../utils":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\index.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\index.js":[function(require,module,exports){
+},{"../utils":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\index.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\index.js":[function(require,module,exports){
 const PubSubProxy = require('./PubSubProxy');
 
 module.exports = {PubSubProxy};
 
-},{"./PubSubProxy":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\PubSubProxy.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\BufferedSocket.js":[function(require,module,exports){
+},{"./PubSubProxy":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\PubSubProxy.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\BufferedSocket.js":[function(require,module,exports){
 const SocketType = require('./SocketType');
 
 /**
@@ -2968,7 +2968,7 @@ function BufferedSocket(socket, type, maxSize = 10000) {
 
 module.exports = BufferedSocket;
 
-},{"./SocketType":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\SocketType.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\Configurator.js":[function(require,module,exports){
+},{"./SocketType":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\SocketType.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\Configurator.js":[function(require,module,exports){
 const config = {
     addressForPublishers: process.env.PSK_PUBLISH_LOGS_ADDR || 'tcp://127.0.0.1:7000',
     addressForSubscribers: process.env.PSK_SUBSCRIBE_FOR_LOGS_ADDR || 'tcp://127.0.0.1:7001',
@@ -2981,7 +2981,7 @@ module.exports = {
     }
 };
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\EnvironmentDataProvider.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\EnvironmentDataProvider.js":[function(require,module,exports){
 (function (global){
 function getEnvironmentData () {
     const or = require("overwrite-require");
@@ -3060,7 +3060,7 @@ if(typeof global.$$.getEnvironmentData === "undefined"){
 //no need to export anything directly
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"overwrite-require":"overwrite-require"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\LogLevel.js":[function(require,module,exports){
+},{"overwrite-require":"overwrite-require"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\LogLevel.js":[function(require,module,exports){
 const LogLevel = {};
 
 LogLevel[LogLevel["error"] = 0] = "error";
@@ -3071,14 +3071,14 @@ LogLevel[LogLevel["log"]   = 4] = "log";
 
 module.exports = Object.freeze(LogLevel);
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\SocketType.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\SocketType.js":[function(require,module,exports){
 const SocketType = {};
 SocketType[SocketType["connectable"] = 0] = "connectable"; // if .connect is called on socket
 SocketType[SocketType["bindable"] = 1] = "bindable"; // if .bind is called on socket
 
 module.exports = Object.freeze(SocketType);
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\index.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\index.js":[function(require,module,exports){
 const Configurator            = require('./Configurator');
 const EnvironmentDataProvider = require('./EnvironmentDataProvider');
 const LogLevel                = require('./LogLevel');
@@ -3093,7 +3093,7 @@ module.exports = {
     SocketType
 };
 
-},{"./BufferedSocket":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\BufferedSocket.js","./Configurator":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\Configurator.js","./EnvironmentDataProvider":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\EnvironmentDataProvider.js","./LogLevel":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\LogLevel.js","./SocketType":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\SocketType.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\soundpubsub\\lib\\soundPubSub.js":[function(require,module,exports){
+},{"./BufferedSocket":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\BufferedSocket.js","./Configurator":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\Configurator.js","./EnvironmentDataProvider":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\EnvironmentDataProvider.js","./LogLevel":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\LogLevel.js","./SocketType":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\SocketType.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\soundpubsub\\lib\\soundPubSub.js":[function(require,module,exports){
 /*
 Initial License: (c) Axiologic Research & Alboaie Sînică.
 Contributors: Axiologic Research , PrivateSky project
@@ -3469,7 +3469,7 @@ function SoundPubSub(){
 
 exports.soundPubSub = new SoundPubSub();
 
-},{"queue":"queue"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\SwarmEngine.js":[function(require,module,exports){
+},{"queue":"queue"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\SwarmEngine.js":[function(require,module,exports){
 function SwarmEngine(identity) {
     let myOwnIdentity = identity || SwarmEngine.prototype.ANONYMOUS_IDENTITY;
 
@@ -3742,7 +3742,7 @@ function makePluggable(powerCord) {
 
 module.exports = SwarmEngine;
 
-},{"./interactions":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\interactions\\index.js","./swarms":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\swarms\\index.js","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\BootEngine.js":[function(require,module,exports){
+},{"./interactions":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\interactions\\index.js","./swarms":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\swarms\\index.js","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\BootEngine.js":[function(require,module,exports){
 function BootEngine(getKeySSI, initializeSwarmEngine, runtimeBundles, constitutionBundles) {
 
 	if (typeof getKeySSI !== "function") {
@@ -3841,7 +3841,7 @@ function promisify(fn) {
 
 module.exports = BootEngine;
 
-},{"opendsu":false,"swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\IsolateBootScript.js":[function(require,module,exports){
+},{"opendsu":false,"swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\IsolateBootScript.js":[function(require,module,exports){
 
 async function getIsolatesWorker({workerData: {constitutions}, externalApi}) {
     const swarmUtils = require('swarmutils');
@@ -3936,7 +3936,7 @@ async function getIsolatesWorker({workerData: {constitutions}, externalApi}) {
 
 module.exports = getIsolatesWorker;
 
-},{"events":"events","fs":false,"swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\ThreadWorkerBootScript.js":[function(require,module,exports){
+},{"events":"events","fs":false,"swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\ThreadWorkerBootScript.js":[function(require,module,exports){
 function boot() {
     const worker_threads ='worker_threads';
     const {parentPort, workerData} = require(worker_threads);
@@ -4006,7 +4006,7 @@ function boot() {
 boot();
 //module.exports = boot.toString();
 
-},{"./BootEngine.js":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\BootEngine.js","callflow":"callflow","opendsu":false,"swarm-engine":"swarm-engine"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\domainBootScript.js":[function(require,module,exports){
+},{"./BootEngine.js":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\BootEngine.js","callflow":"callflow","opendsu":false,"swarm-engine":"swarm-engine"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\domainBootScript.js":[function(require,module,exports){
 const path = require('path');
 //enabling life line to parent process
 require(path.join(process.env.PSK_ROOT_INSTALATION_FOLDER, "psknode/core/utils/pingpongFork.js")).enableLifeLine();
@@ -4146,7 +4146,7 @@ function plugPowerCords() {
 
 boot();
 
-},{"./BootEngine":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\BootEngine.js","dossier":false,"opendsu":false,"path":"path","soundpubsub":"soundpubsub","swarm-engine":"swarm-engine","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js":[function(require,module,exports){
+},{"./BootEngine":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\BootEngine.js","dossier":false,"opendsu":false,"path":"path","soundpubsub":"soundpubsub","swarm-engine":"swarm-engine","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js":[function(require,module,exports){
 module.exports = {
     getIsolatesBootScript: function() {
         return require('./IsolateBootScript');
@@ -4158,7 +4158,7 @@ module.exports = {
         return require('./domainBootScript');
     }
 };
-},{"./IsolateBootScript":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\IsolateBootScript.js","./ThreadWorkerBootScript":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\ThreadWorkerBootScript.js","./domainBootScript":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\domainBootScript.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\interactions\\InteractionSpace.js":[function(require,module,exports){
+},{"./IsolateBootScript":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\IsolateBootScript.js","./ThreadWorkerBootScript":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\ThreadWorkerBootScript.js","./domainBootScript":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\domainBootScript.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\interactions\\InteractionSpace.js":[function(require,module,exports){
 function InteractionSpace(swarmEngineApi) {
     const listeners = {};
     const interactionTemplate = require('./interaction_template').getTemplateHandler(swarmEngineApi);
@@ -4230,7 +4230,7 @@ function InteractionSpace(swarmEngineApi) {
 
 module.exports = InteractionSpace;
 
-},{"./interaction_template":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\interactions\\interaction_template.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\interactions\\index.js":[function(require,module,exports){
+},{"./interaction_template":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\interactions\\interaction_template.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\interactions\\index.js":[function(require,module,exports){
 module.exports = function (swarmEngineApi) {
     let cm = require("callflow");
     const InteractionSpace = require("./InteractionSpace");
@@ -4274,7 +4274,7 @@ module.exports = function (swarmEngineApi) {
     return is;
 };
 
-},{"./InteractionSpace":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\interactions\\InteractionSpace.js","callflow":"callflow"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\interactions\\interaction_template.js":[function(require,module,exports){
+},{"./InteractionSpace":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\interactions\\InteractionSpace.js","callflow":"callflow"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\interactions\\interaction_template.js":[function(require,module,exports){
 exports.getTemplateHandler = function (swarmEngineApi) {
 
     return {
@@ -4318,7 +4318,7 @@ exports.getTemplateHandler = function (swarmEngineApi) {
     }
 };
 
-},{"callflow":"callflow"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js":[function(require,module,exports){
+},{"callflow":"callflow"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js":[function(require,module,exports){
 (function (global){
 function InnerIsolatePowerCord() {
 
@@ -4368,7 +4368,7 @@ module.exports = InnerIsolatePowerCord;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js":[function(require,module,exports){
 function InnerThreadPowerCord() {
     const worker_threads = 'worker_threads';
     const {parentPort} = require(worker_threads);
@@ -4381,7 +4381,7 @@ function InnerThreadPowerCord() {
 
 module.exports = InnerThreadPowerCord;
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js":[function(require,module,exports){
 function OuterIsolatePowerCord(energySource, numberOfWires = 1, apis) { // seed or array of constitution bundle paths
     const syndicate = require('syndicate');
     const bootScripts = require('../bootScripts');
@@ -4443,7 +4443,7 @@ function OuterIsolatePowerCord(energySource, numberOfWires = 1, apis) { // seed 
 
 module.exports = OuterIsolatePowerCord;
 
-},{"../bootScripts":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js","syndicate":"syndicate"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js":[function(require,module,exports){
+},{"../bootScripts":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js","syndicate":"syndicate"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js":[function(require,module,exports){
 function OuterThreadPowerCord(threadBootScript, evaluate= false, energySourceSeed, numberOfWires = 1) { // seed or array of constitution bundle paths
     const syndicate = require('syndicate');
     let pool = null;
@@ -4492,7 +4492,7 @@ function OuterThreadPowerCord(threadBootScript, evaluate= false, energySourceSee
 
 module.exports = OuterThreadPowerCord;
 
-},{"syndicate":"syndicate"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js":[function(require,module,exports){
+},{"syndicate":"syndicate"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js":[function(require,module,exports){
 const outbound = "outbound";
 const inbound = "inbound";
 
@@ -4571,7 +4571,7 @@ function RemoteChannelPairPowerCord(host, channelName, receivingHost, receivingC
 }
 
 module.exports = RemoteChannelPairPowerCord;
-},{"../../psk-http-client":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\index.js","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js":[function(require,module,exports){
+},{"../../psk-http-client":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\index.js","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js":[function(require,module,exports){
 const inbound = "inbound";
 
 function RemoteChannelPowerCord(receivingHost, receivingChannelName){
@@ -4635,7 +4635,7 @@ function RemoteChannelPowerCord(receivingHost, receivingChannelName){
 }
 
 module.exports = RemoteChannelPowerCord;
-},{"../../psk-http-client":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\index.js","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js":[function(require,module,exports){
+},{"../../psk-http-client":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\index.js","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js":[function(require,module,exports){
 (function (Buffer){
 const inbound = "inbound";
 
@@ -4839,7 +4839,7 @@ module.exports = SmartRemoteChannelPowerCord;
 
 }).call(this,require("buffer").Buffer)
 
-},{"../../psk-http-client":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-http-client\\index.js","buffer":"buffer","psk-apihub":false,"swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\browser\\SSAppPowerCord.js":[function(require,module,exports){
+},{"../../psk-http-client":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-http-client\\index.js","buffer":"buffer","psk-apihub":false,"swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\browser\\SSAppPowerCord.js":[function(require,module,exports){
 /*
 	This type of PowerCord can be used from outer and inner SSApp in order to facilitate the SWARM communication
 	@param reference can be the parent (SSApp or wallet environment) or the iframe in which the SSApp gets loaded
@@ -4886,7 +4886,7 @@ function SSAppPowerCord(reference){
 
 module.exports = SSAppPowerCord;
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\swarms\\index.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\swarms\\index.js":[function(require,module,exports){
 module.exports = function(swarmEngineApi){
     const cm = require("callflow");
     const swarmUtils = require("./swarm_template-se");
@@ -4898,7 +4898,7 @@ module.exports = function(swarmEngineApi){
         swarmEngineApi.startSwarmAs(identity, swarmName, ctor, ...params);
     };
 };
-},{"./swarm_template-se":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\swarms\\swarm_template-se.js","callflow":"callflow"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\swarms\\swarm_template-se.js":[function(require,module,exports){
+},{"./swarm_template-se":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\swarms\\swarm_template-se.js","callflow":"callflow"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\swarms\\swarm_template-se.js":[function(require,module,exports){
 exports.getTemplateHandler = function (swarmEngine) {
     let cm = require("callflow");
 
@@ -4984,7 +4984,7 @@ exports.getTemplateHandler = function (swarmEngine) {
         }
     }
 };
-},{"callflow":"callflow","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\Combos.js":[function(require,module,exports){
+},{"callflow":"callflow","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\Combos.js":[function(require,module,exports){
 function product(args) {
     if(!args.length){
         return [ [] ];
@@ -5010,7 +5010,7 @@ function objectProduct(obj) {
 }
 
 module.exports = objectProduct;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\OwM.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\OwM.js":[function(require,module,exports){
 var meta = "meta";
 
 function OwM(serialized){
@@ -5101,7 +5101,7 @@ OwM.prototype.setMetaFor = function(obj, name, value){
 };
 
 module.exports = OwM;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\Queue.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\Queue.js":[function(require,module,exports){
 function QueueElement(content) {
 	this.content = content;
 	this.next = null;
@@ -5169,7 +5169,7 @@ Queue.prototype.toString = function () {
 Queue.prototype.inspect = Queue.prototype.toString;
 
 module.exports = Queue;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\SwarmPacker.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\SwarmPacker.js":[function(require,module,exports){
 const HEADER_SIZE_RESEARVED = 4;
 
 function SwarmPacker(){
@@ -5318,7 +5318,7 @@ SwarmPacker.getHeader = function(pack){
     return header;
 };
 module.exports = SwarmPacker;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\TaskCounter.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\TaskCounter.js":[function(require,module,exports){
 
 function TaskCounter(finalCallback) {
 	let results = [];
@@ -5368,7 +5368,7 @@ function TaskCounter(finalCallback) {
 }
 
 module.exports = TaskCounter;
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\beesHealer.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\beesHealer.js":[function(require,module,exports){
 const OwM = require("./OwM");
 
 /*
@@ -5424,7 +5424,7 @@ exports.jsonToNative = function(serialisedValues, result){
     };
 
 };
-},{"./OwM":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\OwM.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\path.js":[function(require,module,exports){
+},{"./OwM":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\OwM.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\path.js":[function(require,module,exports){
 function replaceAll(str, search, replacement) {
     return str.split(search).join(replacement);
 }
@@ -5611,7 +5611,7 @@ module.exports = {
     extname
 };
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\pingpongFork.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\pingpongFork.js":[function(require,module,exports){
 const PING = "PING";
 const PONG = "PONG";
 
@@ -5703,7 +5703,7 @@ module.exports.enableLifeLine = function(timeout){
         }
     }, interval);
 };
-},{"child_process":false}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\pskconsole.js":[function(require,module,exports){
+},{"child_process":false}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\pskconsole.js":[function(require,module,exports){
 var commands = {};
 var commands_help = {};
 
@@ -5774,7 +5774,7 @@ module.exports = {
 };
 
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\safe-uuid.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\safe-uuid.js":[function(require,module,exports){
 
 function encode(buffer) {
     return buffer.toString('base64')
@@ -5842,7 +5842,7 @@ exports.short_uuid = function(callback) {
         callback(null, encode(buf));
     });
 };
-},{"crypto":"crypto"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\uidGenerator.js":[function(require,module,exports){
+},{"crypto":"crypto"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\uidGenerator.js":[function(require,module,exports){
 (function (Buffer){
 const crypto = require('crypto');
 const Queue = require("./Queue");
@@ -5948,7 +5948,7 @@ module.exports.createUidGenerator = function (minBuffers, bufferSize) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"./Queue":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\Queue.js","buffer":"buffer","crypto":"crypto"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\AbstractPool.js":[function(require,module,exports){
+},{"./Queue":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\Queue.js","buffer":"buffer","crypto":"crypto"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\AbstractPool.js":[function(require,module,exports){
 (function (setImmediate){
 const {assert} = require('./utils');
 const util = require('util');
@@ -6060,7 +6060,7 @@ module.exports = AbstractPool;
 
 }).call(this,require("timers").setImmediate)
 
-},{"./utils":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\utils.js","events":"events","timers":"timers","util":"util"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Isolates.js":[function(require,module,exports){
+},{"./utils":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\utils.js","events":"events","timers":"timers","util":"util"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Isolates.js":[function(require,module,exports){
 const AbstractPool = require('./AbstractPool');
 const util = require('util');
 /**
@@ -6096,7 +6096,7 @@ util.inherits(PoolIsolates, AbstractPool);
 
 module.exports = PoolIsolates;
 
-},{"./AbstractPool":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\AbstractPool.js","util":"util"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Threads.js":[function(require,module,exports){
+},{"./AbstractPool":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\AbstractPool.js","util":"util"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Threads.js":[function(require,module,exports){
 const AbstractPool = require('./AbstractPool');
 const util = require('util');
 
@@ -6149,7 +6149,7 @@ util.inherits(PoolThreads, AbstractPool);
 
 module.exports = PoolThreads;
 
-},{"./AbstractPool":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\AbstractPool.js","util":"util"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Web-Workers.js":[function(require,module,exports){
+},{"./AbstractPool":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\AbstractPool.js","util":"util"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Web-Workers.js":[function(require,module,exports){
 const AbstractPool = require('./AbstractPool');
 const util = require('util');
 
@@ -6205,7 +6205,7 @@ util.inherits(PoolWebWorkers, AbstractPool);
 
 module.exports = PoolWebWorkers;
 
-},{"./AbstractPool":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\AbstractPool.js","overwrite-require":"overwrite-require","util":"util"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\PoolConfig.js":[function(require,module,exports){
+},{"./AbstractPool":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\AbstractPool.js","overwrite-require":"overwrite-require","util":"util"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\PoolConfig.js":[function(require,module,exports){
 const os = require('os');
 const util = require('util');
 const WorkerStrategies = require('./WorkerStrategies');
@@ -6307,7 +6307,7 @@ PoolConfig.createByOverwritingDefaults = function (config = {}, options = {allow
 };
 
 module.exports = PoolConfig;
-},{"./WorkerStrategies":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerStrategies.js","os":"os","util":"util"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\QueueShim.js":[function(require,module,exports){
+},{"./WorkerStrategies":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerStrategies.js","os":"os","util":"util"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\QueueShim.js":[function(require,module,exports){
 function Queue() {
     const backingStorage = [];
 
@@ -6369,7 +6369,7 @@ function Queue() {
 
 module.exports = Queue;
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerPool.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerPool.js":[function(require,module,exports){
 
 /** @param pool {AbstractPool} */
 function WorkerPool(pool) {
@@ -6486,7 +6486,7 @@ function WorkerPool(pool) {
 
 module.exports = WorkerPool;
 
-},{"./QueueShim.js":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\QueueShim.js","./utils":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\utils.js","swarmutils":"swarmutils"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerStrategies.js":[function(require,module,exports){
+},{"./QueueShim.js":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\QueueShim.js","./utils":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\utils.js","swarmutils":"swarmutils"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerStrategies.js":[function(require,module,exports){
 const WorkerStrategies = {
     THREADS: 'threads',
     ISOLATES: 'isolates',
@@ -6495,7 +6495,7 @@ const WorkerStrategies = {
 
 module.exports = Object.freeze(WorkerStrategies);
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\utils.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\utils.js":[function(require,module,exports){
 function assert(condition, {ifFails}) {
     if (condition === false) {
         console.error(ifFails);
@@ -6506,7 +6506,7 @@ module.exports = {
     assert
 };
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\array-set.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\array-set.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -6629,7 +6629,7 @@ ArraySet.prototype.toArray = function ArraySet_toArray() {
 
 exports.ArraySet = ArraySet;
 
-},{"./util":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\base64-vlq.js":[function(require,module,exports){
+},{"./util":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\base64-vlq.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -6771,7 +6771,7 @@ exports.decode = function base64VLQ_decode(aStr, aIndex, aOutParam) {
   aOutParam.rest = aIndex;
 };
 
-},{"./base64":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\base64.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\base64.js":[function(require,module,exports){
+},{"./base64":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\base64.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\base64.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -6840,7 +6840,7 @@ exports.decode = function (charCode) {
   return -1;
 };
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\binary-search.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\binary-search.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -6953,7 +6953,7 @@ exports.search = function search(aNeedle, aHaystack, aCompare, aBias) {
   return index;
 };
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\mapping-list.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\mapping-list.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2014 Mozilla Foundation and contributors
@@ -7034,7 +7034,7 @@ MappingList.prototype.toArray = function MappingList_toArray() {
 
 exports.MappingList = MappingList;
 
-},{"./util":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\quick-sort.js":[function(require,module,exports){
+},{"./util":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\quick-sort.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -7150,7 +7150,7 @@ exports.quickSort = function (ary, comparator) {
   doQuickSort(ary, comparator, 0, ary.length - 1);
 };
 
-},{}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-consumer.js":[function(require,module,exports){
+},{}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-consumer.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -8234,7 +8234,7 @@ IndexedSourceMapConsumer.prototype._parseMappings =
 
 exports.IndexedSourceMapConsumer = IndexedSourceMapConsumer;
 
-},{"./array-set":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\array-set.js","./base64-vlq":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\base64-vlq.js","./binary-search":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\binary-search.js","./quick-sort":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\quick-sort.js","./util":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-generator.js":[function(require,module,exports){
+},{"./array-set":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\array-set.js","./base64-vlq":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\base64-vlq.js","./binary-search":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\binary-search.js","./quick-sort":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\quick-sort.js","./util":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-generator.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -8652,7 +8652,7 @@ SourceMapGenerator.prototype.toString =
 
 exports.SourceMapGenerator = SourceMapGenerator;
 
-},{"./array-set":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\array-set.js","./base64-vlq":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\base64-vlq.js","./mapping-list":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\mapping-list.js","./util":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\source-node.js":[function(require,module,exports){
+},{"./array-set":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\array-set.js","./base64-vlq":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\base64-vlq.js","./mapping-list":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\mapping-list.js","./util":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\source-node.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9067,7 +9067,7 @@ SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSou
 
 exports.SourceNode = SourceNode;
 
-},{"./source-map-generator":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-generator.js","./util":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js":[function(require,module,exports){
+},{"./source-map-generator":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-generator.js","./util":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js"}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\util.js":[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9648,7 +9648,7 @@ module.exports = {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./constants":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\constants.js","./lib/InterceptorRegistry":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\InterceptorRegistry.js","./lib/loadLibrary":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\loadLibrary.js","./lib/parallelJoinPoint":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\parallelJoinPoint.js","./lib/serialJoinPoint":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\serialJoinPoint.js","./lib/swarmDescription":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\swarmDescription.js","./lib/utilityFunctions/base":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\base.js","crypto":"crypto","path":"path","soundpubsub":"soundpubsub"}],"psk-security-context":[function(require,module,exports){
+},{"./constants":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\constants.js","./lib/InterceptorRegistry":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\InterceptorRegistry.js","./lib/loadLibrary":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\loadLibrary.js","./lib/parallelJoinPoint":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\parallelJoinPoint.js","./lib/serialJoinPoint":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\serialJoinPoint.js","./lib/swarmDescription":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\swarmDescription.js","./lib/utilityFunctions/base":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\callflow\\lib\\utilityFunctions\\base.js","crypto":"crypto","path":"path","soundpubsub":"soundpubsub"}],"psk-security-context":[function(require,module,exports){
 const RawCSBSecurityContext = require("./lib/RawCSBSecurityContext");
 const RootCSBSecurityContext = require("./lib/RootCSBSecurityContext");
 const SecurityContext = require("./lib/SecurityContext");
@@ -9675,12 +9675,12 @@ module.exports.createPSKSignature = (serializedPSKSignature) => {
     return new PSKSignature(serializedPSKSignature);
 };
 
-},{"./lib/EncryptedSecret":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\EncryptedSecret.js","./lib/PSKSignature":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\PSKSignature.js","./lib/RawCSBSecurityContext":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\RawCSBSecurityContext.js","./lib/RootCSBSecurityContext":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\RootCSBSecurityContext.js","./lib/SecurityContext":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psk-security-context\\lib\\SecurityContext.js"}],"pskbuffer":[function(require,module,exports){
+},{"./lib/EncryptedSecret":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\EncryptedSecret.js","./lib/PSKSignature":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\PSKSignature.js","./lib/RawCSBSecurityContext":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\RawCSBSecurityContext.js","./lib/RootCSBSecurityContext":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\RootCSBSecurityContext.js","./lib/SecurityContext":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psk-security-context\\lib\\SecurityContext.js"}],"pskbuffer":[function(require,module,exports){
 const PSKBuffer = require('./lib/PSKBuffer');
 
 module.exports = PSKBuffer;
 
-},{"./lib/PSKBuffer":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\pskbuffer\\lib\\PSKBuffer.js"}],"psklogger":[function(require,module,exports){
+},{"./lib/PSKBuffer":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\pskbuffer\\lib\\PSKBuffer.js"}],"psklogger":[function(require,module,exports){
 try{
     const zmq = "zeromq";
     require(zmq);
@@ -9723,7 +9723,7 @@ switch ($$.environmentType) {
         //nothing to do here for now;
 }
 module.exports.PSKLogger = PSKLogger;
-},{"./src/MessagePublisher":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\index.js","./src/MessageSubscriber":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\index.js","./src/PSKLoggerClient/index":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\index.js","./src/PubSubProxy":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\index.js","./src/utils":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\psklogger\\src\\utils\\index.js","overwrite-require":"overwrite-require"}],"queue":[function(require,module,exports){
+},{"./src/MessagePublisher":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessagePublisher\\index.js","./src/MessageSubscriber":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\MessageSubscriber\\index.js","./src/PSKLoggerClient/index":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\PSKLoggerClient\\index.js","./src/PubSubProxy":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\PubSubProxy\\index.js","./src/utils":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\psklogger\\src\\utils\\index.js","overwrite-require":"overwrite-require"}],"queue":[function(require,module,exports){
 function QueueElement(content) {
 	this.content = content;
 	this.next = null;
@@ -9796,7 +9796,7 @@ module.exports = Queue;
 module.exports = {
 					soundPubSub: require("./lib/soundPubSub").soundPubSub
 };
-},{"./lib/soundPubSub":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\soundpubsub\\lib\\soundPubSub.js"}],"source-map-support":[function(require,module,exports){
+},{"./lib/soundPubSub":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\soundpubsub\\lib\\soundPubSub.js"}],"source-map-support":[function(require,module,exports){
 var SourceMapConsumer = require('source-map').SourceMapConsumer;
 var path = require('path');
 
@@ -10412,7 +10412,7 @@ exports.SourceMapGenerator = require('./lib/source-map-generator').SourceMapGene
 exports.SourceMapConsumer = require('./lib/source-map-consumer').SourceMapConsumer;
 exports.SourceNode = require('./lib/source-node').SourceNode;
 
-},{"./lib/source-map-consumer":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-consumer.js","./lib/source-map-generator":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-generator.js","./lib/source-node":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\node_modules\\source-map\\lib\\source-node.js"}],"swarm-engine":[function(require,module,exports){
+},{"./lib/source-map-consumer":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-consumer.js","./lib/source-map-generator":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\source-map-generator.js","./lib/source-node":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\node_modules\\source-map\\lib\\source-node.js"}],"swarm-engine":[function(require,module,exports){
 module.exports = {
     initialise:function(...args){
         if(typeof $$.swarmEngine === "undefined"){
@@ -10444,7 +10444,7 @@ if (browserContexts.indexOf($$.environmentType) !== -1) {
     module.exports.InnerWebWorkerPowerCord = require("./powerCords/browser/InnerWebWorkerPowerCord");*/
 }
 
-},{"./SwarmEngine":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./bootScripts":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js","./powerCords/InnerIsolatePowerCord":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js","./powerCords/browser/SSAppPowerCord":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\browser\\SSAppPowerCord.js","overwrite-require":"overwrite-require"}],"swarmutils":[function(require,module,exports){
+},{"./SwarmEngine":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\SwarmEngine.js","./bootScripts":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\bootScripts\\index.js","./powerCords/InnerIsolatePowerCord":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\InnerIsolatePowerCord.js","./powerCords/InnerThreadPowerCord":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\InnerThreadPowerCord.js","./powerCords/OuterIsolatePowerCord":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\OuterIsolatePowerCord.js","./powerCords/OuterThreadPowerCord":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\OuterThreadPowerCord.js","./powerCords/RemoteChannelPairPowerCord":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPairPowerCord.js","./powerCords/RemoteChannelPowerCord":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\RemoteChannelPowerCord.js","./powerCords/SmartRemoteChannelPowerCord":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\SmartRemoteChannelPowerCord.js","./powerCords/browser/SSAppPowerCord":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarm-engine\\powerCords\\browser\\SSAppPowerCord.js","overwrite-require":"overwrite-require"}],"swarmutils":[function(require,module,exports){
 (function (global,Buffer){
 module.exports.OwM = require("./lib/OwM");
 module.exports.beesHealer = require("./lib/beesHealer");
@@ -10490,7 +10490,7 @@ module.exports.convertToBuffer = function(uint8array){
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer)
 
-},{"./lib/Combos":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\Combos.js","./lib/OwM":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\OwM.js","./lib/Queue":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\Queue.js","./lib/SwarmPacker":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\SwarmPacker.js","./lib/TaskCounter":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\TaskCounter.js","./lib/beesHealer":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\beesHealer.js","./lib/path":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\path.js","./lib/pingpongFork":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\pingpongFork.js","./lib/pskconsole":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\pskconsole.js","./lib/safe-uuid":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\safe-uuid.js","./lib/uidGenerator":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\swarmutils\\lib\\uidGenerator.js","buffer":"buffer"}],"syndicate":[function(require,module,exports){
+},{"./lib/Combos":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\Combos.js","./lib/OwM":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\OwM.js","./lib/Queue":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\Queue.js","./lib/SwarmPacker":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\SwarmPacker.js","./lib/TaskCounter":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\TaskCounter.js","./lib/beesHealer":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\beesHealer.js","./lib/path":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\path.js","./lib/pingpongFork":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\pingpongFork.js","./lib/pskconsole":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\pskconsole.js","./lib/safe-uuid":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\safe-uuid.js","./lib/uidGenerator":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\swarmutils\\lib\\uidGenerator.js","buffer":"buffer"}],"syndicate":[function(require,module,exports){
 const PoolConfig = require('./lib/PoolConfig');
 const WorkerPool = require('./lib/WorkerPool');
 const WorkerStrategies = require('./lib/WorkerStrategies');
@@ -10546,5 +10546,5 @@ module.exports = {
     registerWorkerStrategy
 };
 
-},{"./lib/Pool-Isolates":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Isolates.js","./lib/Pool-Threads":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Threads.js","./lib/Pool-Web-Workers":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Web-Workers.js","./lib/PoolConfig":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\PoolConfig.js","./lib/WorkerPool":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerPool.js","./lib/WorkerStrategies":"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerStrategies.js"}]},{},["C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\privatesky\\builds\\tmp\\pskruntime_intermediar.js"])
+},{"./lib/Pool-Isolates":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Isolates.js","./lib/Pool-Threads":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Threads.js","./lib/Pool-Web-Workers":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\Pool-Web-Workers.js","./lib/PoolConfig":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\PoolConfig.js","./lib/WorkerPool":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerPool.js","./lib/WorkerStrategies":"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\modules\\syndicate\\lib\\WorkerStrategies.js"}]},{},["D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\privatesky\\builds\\tmp\\pskruntime_intermediar.js"])
 //# sourceMappingURL=pskruntime.js.map

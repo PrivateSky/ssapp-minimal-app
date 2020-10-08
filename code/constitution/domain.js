@@ -112,7 +112,7 @@ $$.swarms.describe('toDoSwarm', {
         });
     }
 });
-},{"opendsu":false,"pskcrypto":false}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\ssapp-minimal-app\\builds\\tmp\\domain_intermediar.js":[function(require,module,exports){
+},{"opendsu":false,"pskcrypto":false}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\ssapp-minimal-app\\builds\\tmp\\domain_intermediar.js":[function(require,module,exports){
 (function (global){
 global.domainLoadModules = function(){ 
 
@@ -130,4 +130,4 @@ if (typeof $$ !== "undefined") {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./../../domain":"./../../domain"}]},{},["C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\ssapp-minimal-app\\builds\\tmp\\domain_intermediar.js"])
+},{"./../../domain":"./../../domain"}]},{},["D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\ssapp-minimal-app\\builds\\tmp\\domain_intermediar.js"])

@@ -1,5 +1,5 @@
 import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
-import {getTodoManagerServiceInstance} from "../services/TodoManagerService.js";
+import { getTodoManagerServiceInstance } from "../services/TodoManagerService.js";
 
 export default class TodoListController extends ContainerController {
     constructor(element) {
@@ -44,28 +44,16 @@ export default class TodoListController extends ContainerController {
 
     _addToDoListener = (index) => {
         console.log('_addToDoListener simple', index)
-        this.model.onChange(`items.${index}.checkbox` , (modelChangeObject) => {
+        this.model.onChange(`items.${index}.checkbox`, (modelChangeObject) => {
             let currentToDo = modelChangeObject.chain.split(".");
-            console.log('_addToDoListener checkbox', currentToDo)
+            console.log('_addToDoListener checkbox', currentToDo);
             this._editListItem(this.model.getChainValue(currentToDo[0] + "." + currentToDo[1]));
         })
-        this.model.onChange(`items.${index}.value` , (modelChangeObject) => {
+        this.model.onChange(`items.${index}.input.value`, (modelChangeObject) => {
             let currentToDo = modelChangeObject.chain.split(".");
             console.log('_addToDoListener value', currentToDo)
             this._editListItem(this.model.getChainValue(currentToDo[0] + "." + currentToDo[1]));
         })
-        this.element.querySelector('psk-for-each')
-            .addEventListener('blur', (event) => {
-               console.log('blur', event);
-            });
-        this.element.querySelector('psk-for-each')
-            .addEventListener('focus', (event) => {
-               console.log('focus', event);
-            });
-        this.element.querySelector('psk-for-each')
-            .addEventListener('dblClick', (event) => {
-               console.log('dblClick', event);
-            });
     }
 
     _populateItemList(callback) {
@@ -73,19 +61,23 @@ export default class TodoListController extends ContainerController {
             if (err) {
                 console.log(err);
             }
-            callback(data)
+
+            callback(data);
         })
     }
 
     _addNewListItem() {
         // Get the value from the "item" view model
         let newItem = {
-            value: this.model.item.value,
-            readOnly: false,
             checkbox: {
                 checkedValue: "yes",
                 uncheckedValue: "no",
                 value: ""
+            },
+            input: {
+                value: this.model.item.value,
+                readOnly: false,
+                specificProps: this._getInputSpecificProps()
             }
         };
 
@@ -97,24 +89,38 @@ export default class TodoListController extends ContainerController {
             newItem = {
                 ...newItem,
                 ...data
-            }
-            debugger;
+            };
+
             // Appended to the "items" array
             this.model.items.push(newItem);
-
             this._addToDoListener(this.model.items.length - 1);
-
 
             // Clear the "item" view model
             this.model.item.value = '';
-        })
+        });
+    }
 
+    _getInputSpecificProps() {
+        return {
+            onFocus: this._focusHandler,
+            onBlur: this._blurHandler,
+            onDblClick: this._doubleClickHandler
+        }
+    }
 
+    _focusHandler(event) {
+        console.log("Focus triggered: ", event);
+    }
+
+    _blurHandler(event) {
+        console.log("Blur triggered: ", event);
+    }
+
+    _doubleClickHandler(event) {
+        console.log("Double click triggered: ", event);
     }
 
     _editListItem(todo) {
-        debugger;
-
         this.TodoManagerService.editToDo(todo, (err, data) => {
             if (err) {
                 console.log(err);

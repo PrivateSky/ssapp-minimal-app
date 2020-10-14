@@ -8,9 +8,6 @@ export default class TodoListController extends ContainerController {
 
         // Set some default values for the view model
         this.model = this.setModel({
-            conditionalExpressions: {
-                isLoading: true
-            },
             items: [],
             item: {
                 name: 'item',
@@ -18,66 +15,54 @@ export default class TodoListController extends ContainerController {
             }
         });
 
-        // Add new item to the list
-        this.on('list:newItem', (e) => {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            this._addNewListItem();
-        })
+        // Init the listeners to handle events
+        this.initListeners();
 
-        this._populateItemList((data) => {
-            this.setModelObject('items', data);
-            this.setLoadingState();
-            this.model.items.forEach((item, index) => {
-                this._addToDoListener(index);
-            })
+        // Populate existing todos to item list
+        this.populateItemList((err, data) => {
+            if (err) {
+                return console.log(err);
+            }
+            this.setItemsClean(data);
         });
     }
 
-    setLoadingState(loadingState = false) {
-        this.model.setChainValue("conditionalExpressions.isLoading", loadingState);
+    initListeners = () => {
+        // Select the creating field and add
+        // focusout event listener
+        // This is used for creating new todo elements
+        let todoCreatorField = this.element.querySelector('#todo-creator-field');
+        todoCreatorField.addEventListener("focusout", this._mainInputBlurHandler)
+
+        // Selecting the parent of all the items and add the event listeners
+        let itemsForeachFields = this.element.querySelector('#items-foreach');
+        itemsForeachFields.addEventListener("focusout", this._blurHandler)
+        itemsForeachFields.addEventListener("click", this._changeToDoCheckedState)
+        itemsForeachFields.addEventListener("dblclick", this._doubleClickHandler)
     }
 
-    setModelObject(key, object) {
-        this.model.setChainValue(key, JSON.parse(JSON.stringify(object)));
-    }
-
-    _addToDoListener = (index) => {
-        console.log('_addToDoListener simple', index)
-        this.model.onChange(`items.${index}.checkbox`, (modelChangeObject) => {
-            let currentToDo = modelChangeObject.chain.split(".");
-            console.log('_addToDoListener checkbox', currentToDo);
-            this._editListItem(this.model.getChainValue(currentToDo[0] + "." + currentToDo[1]));
-        })
-        this.model.onChange(`items.${index}.input.value`, (modelChangeObject) => {
-            let currentToDo = modelChangeObject.chain.split(".");
-            console.log('_addToDoListener value', currentToDo)
-            this._editListItem(this.model.getChainValue(currentToDo[0] + "." + currentToDo[1]));
-        })
-    }
-
-    _populateItemList(callback) {
+    populateItemList(callback) {
         this.TodoManagerService.listToDos((err, data) => {
             if (err) {
                 console.log(err);
             }
-
-            callback(data);
+            callback(undefined, data);
         })
     }
 
     _addNewListItem() {
-        // Get the value from the "item" view model
+        // Get the identifier as the index of the new element
+        let fieldIdentifier = this.model.items.length + 1;
+
         let newItem = {
             checkbox: {
-                checkedValue: "yes",
-                uncheckedValue: "no",
-                value: ""
+                name: 'todo-checkbox-' + fieldIdentifier,
+                checked: false
             },
             input: {
+                name: 'todo-input-' + fieldIdentifier,
                 value: this.model.item.value,
-                readOnly: false,
-                specificProps: this._getInputSpecificProps()
+                readOnly: true
             }
         };
 
@@ -85,7 +70,8 @@ export default class TodoListController extends ContainerController {
             if (err) {
                 console.log(err);
             }
-            console.log('createToDo', data);
+
+            // Bring the path and the seed to the newItem object
             newItem = {
                 ...newItem,
                 ...data
@@ -93,39 +79,88 @@ export default class TodoListController extends ContainerController {
 
             // Appended to the "items" array
             this.model.items.push(newItem);
-            this._addToDoListener(this.model.items.length - 1);
 
             // Clear the "item" view model
             this.model.item.value = '';
         });
     }
 
-    _getInputSpecificProps() {
-        return {
-            onFocus: this._focusHandler,
-            onBlur: this._blurHandler,
-            onDblClick: this._doubleClickHandler
+    stringIsBlank(str) {
+        return (!str || /^\s*$/.test(str));
+    }
+
+    _mainInputBlurHandler = (event) => {
+        // We shouldn't add a blank element in the list
+        if (!this.stringIsBlank(event.target.value)) {
+            this._addNewListItem();
         }
     }
 
-    _focusHandler(event) {
-        console.log("Focus triggered: ", event);
+    _blurHandler = (event) => {
+        // Change the readOnly property to true and save the changes of the field
+        let currentToDo = this.changeReadOnlyPropertyFromEventItem(event, true);
+        this.editListItem(currentToDo);
     }
 
-    _blurHandler(event) {
-        console.log("Blur triggered: ", event);
+    _doubleClickHandler = (event) => {
+        // Change the readOnly property in false so we can edit the field
+        this.changeReadOnlyPropertyFromEventItem(event, false);
     }
 
-    _doubleClickHandler(event) {
-        console.log("Double click triggered: ", event);
+    changeReadOnlyPropertyFromEventItem = (event, readOnly) => {
+        let elementName = event.target.name;
+        // If the element that triggered the event was not a todo-input we ignore it
+        if (!elementName || !elementName.includes('todo-input')) {
+            return;
+        }
+
+        // Find the wanted element and change the value of the read-only property
+        let items = this.model.items
+        let itemIndex = items.findIndex((todo) => todo.input.name === elementName)
+        items[itemIndex].input = {
+            ...items[itemIndex].input,
+            readOnly: readOnly
+        }
+        this.setItemsClean(items);
+        return items[itemIndex];
     }
 
-    _editListItem(todo) {
+    _changeToDoCheckedState = (event) => {
+        let elementName = event.target.name;
+        // If the element that triggered the event was not a todo-checkbox we ignore it
+        if (!elementName || !elementName.includes('todo-checkbox')) {
+            return;
+        }
+
+        // Find the wanted element and change the value of the checked property
+        let items = this.model.items
+        let itemIndex = items.findIndex((todo) => todo.checkbox.name === event.target.name)
+        items[itemIndex].checkbox = {
+            ...items[itemIndex].checkbox,
+            checked: !items[itemIndex].checkbox.checked,
+        }
+        this.setItemsClean(items);
+        this.editListItem(items[itemIndex]);
+    }
+
+    todoIsValid(todo) {
+        // Check if the todo element is valid or not
+        return !(!todo || !todo.input || !todo.checkbox || !todo.path);
+    }
+
+    editListItem(todo) {
+        if(!this.todoIsValid(todo)) {
+            return;
+        }
         this.TodoManagerService.editToDo(todo, (err, data) => {
             if (err) {
-                console.log(err);
+                return console.log(err);
             }
-            console.log('editToDo', data);
         })
+    }
+
+    setItemsClean = (newItems) => {
+        // Set the model fresh, without proxies
+        this.model.items = JSON.parse(JSON.stringify(newItems))
     }
 }

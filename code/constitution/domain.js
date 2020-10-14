@@ -40,15 +40,23 @@ $$.swarms.describe('toDoSwarm', {
         });
     },
 
-    editToDo: function (data) {
-        debugger;
-
-        keyssiresolver.loadDSU(data.identifier, (err, todoDossier) => {
+    editToDo: function (editedToDo) {
+        this.__listToDos((err, todos) => {
             if (err) {
                 return this.return(err);
             }
-            todoDossier.writeFile('/data', JSON.stringify(data), this.return);
-        })
+            let wantedToDo = todos.find(todo => todo.path === editedToDo.path);
+            if (!wantedToDo) {
+                return this.return(new Error('Todo with path ' + editedToDo.path + ' not found.'));
+            }
+
+            keyssiresolver.loadDSU(wantedToDo.identifier, (err, todoDossier) => {
+                if (err) {
+                    return this.return(err);
+                }
+                todoDossier.writeFile('/data', JSON.stringify(editedToDo), this.return);
+            })
+        });
     },
 
     listToDos: function () {
@@ -112,7 +120,7 @@ $$.swarms.describe('toDoSwarm', {
         });
     }
 });
-},{"opendsu":false,"pskcrypto":false}],"D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\ssapp-minimal-app\\builds\\tmp\\domain_intermediar.js":[function(require,module,exports){
+},{"opendsu":false,"pskcrypto":false}],"C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\ssapp-minimal-app\\builds\\tmp\\domain_intermediar.js":[function(require,module,exports){
 (function (global){
 global.domainLoadModules = function(){ 
 
@@ -130,4 +138,4 @@ if (typeof $$ !== "undefined") {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./../../domain":"./../../domain"}]},{},["D:\\Catalin\\Munca\\working workspaces\\wg-workspace\\ssapp-minimal-app\\builds\\tmp\\domain_intermediar.js"])
+},{"./../../domain":"./../../domain"}]},{},["C:\\Users\\CosminIulianIrimia\\Documents\\Work\\demo\\psk-enterprise-workspace\\ssapp-minimal-app\\builds\\tmp\\domain_intermediar.js"])

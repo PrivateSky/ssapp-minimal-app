@@ -39,15 +39,23 @@ $$.swarms.describe('toDoSwarm', {
         });
     },
 
-    editToDo: function (data) {
-        debugger;
-
-        keyssiresolver.loadDSU(data.identifier, (err, todoDossier) => {
+    editToDo: function (editedToDo) {
+        this.__listToDos((err, todos) => {
             if (err) {
                 return this.return(err);
             }
-            todoDossier.writeFile('/data', JSON.stringify(data), this.return);
-        })
+            let wantedToDo = todos.find(todo => todo.path === editedToDo.path);
+            if (!wantedToDo) {
+                return this.return(new Error('Todo with path ' + editedToDo.path + ' not found.'));
+            }
+
+            keyssiresolver.loadDSU(wantedToDo.identifier, (err, todoDossier) => {
+                if (err) {
+                    return this.return(err);
+                }
+                todoDossier.writeFile('/data', JSON.stringify(editedToDo), this.return);
+            })
+        });
     },
 
     listToDos: function () {

@@ -1,18 +1,20 @@
 console.log("Loaded from domain.js");
 const TODO_MOUNTING_PATH = "/todos";
-const keyssiresolver = require("opendsu").loadApi("resolver");
+const openDSU = require("opendsu");
+const keyssiresolver = openDSU.loadApi("resolver");
+const securityContext = openDSU.loadApi("sc");
+let mainDSU;
 
 $$.swarms.describe('toDoSwarm', {
     start: function (data) {
-        if (rawDossier) {
-            return this.createToDo(data);
-        }
-        this.return(new Error("Raw Dossier is not available."));
+        this.__initMainDSU();
+        this.createToDo(data);
     },
 
     createToDo: function (data) {
-        const keyssiSpace = require("opendsu").loadApi("keyssi");
-        rawDossier.getKeySSI((err, ssi) => {
+        this.__initMainDSU();
+        const keyssiSpace = openDSU.loadApi("keyssi");
+        mainDSU.getKeySSI((err, ssi) => {
             if (err) {
                 console.error(err);
                 return this.return(err);
@@ -32,7 +34,7 @@ $$.swarms.describe('toDoSwarm', {
                         if (err) {
                             return this.return(err);
                         }
-                        this.mountDossier(rawDossier, TODO_MOUNTING_PATH, keySSI)
+                        this.mountDossier(mainDSU, TODO_MOUNTING_PATH, keySSI)
                     });
                 });
             });
@@ -40,6 +42,7 @@ $$.swarms.describe('toDoSwarm', {
     },
 
     editToDo: function (editedToDo) {
+        this.__initMainDSU();
         this.__listToDos((err, todos) => {
             if (err) {
                 return this.return(err);
@@ -59,6 +62,7 @@ $$.swarms.describe('toDoSwarm', {
     },
 
     listToDos: function () {
+        this.__initMainDSU();
         this.__listToDos((err, data) => {
             if (err) {
                 return this.return(err);
@@ -68,7 +72,7 @@ $$.swarms.describe('toDoSwarm', {
     },
 
     __listToDos: function (callback) {
-        rawDossier.readDir(TODO_MOUNTING_PATH, (err, applications) => {
+        mainDSU.readDir(TODO_MOUNTING_PATH, (err, applications) => {
             if (err) {
                 return callback(err);
             }
@@ -76,7 +80,7 @@ $$.swarms.describe('toDoSwarm', {
 
             let getToDos = (todo) => {
                 let appPath = TODO_MOUNTING_PATH + '/' + todo.path;
-                rawDossier.readFile(appPath + '/data', (err, fileContent) => {
+                mainDSU.readFile(appPath + '/data', (err, fileContent) => {
                     toBeReturned.push({
                         ...JSON.parse(fileContent),
                         path: appPath,
@@ -97,7 +101,8 @@ $$.swarms.describe('toDoSwarm', {
     },
 
     removeToDo(applicationPath) {
-        rawDossier.unmount(applicationPath, (err, data) => {
+        this.__initMainDSU();
+        mainDSU.unmount(applicationPath, (err, data) => {
             if (err) {
                 return this.return(err);
             }
@@ -117,5 +122,13 @@ $$.swarms.describe('toDoSwarm', {
             }
             this.return(undefined, {path: path, seed: seed});
         });
+    },
+
+    __initMainDSU: function () {
+        try {
+            mainDSU = securityContext.getMainDSU();
+        } catch (err) {
+            return this.return(err);
+        }
     }
 });

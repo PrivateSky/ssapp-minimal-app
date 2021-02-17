@@ -4,7 +4,6 @@
   "description": "SSApp Template",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node ./node_modules/octopus/scripts/run",
     "prebuild": "node ./node_modules/octopus/scripts/run prebuild devmode",
     "build": "node ./node_modules/octopus/scripts/buildDossier",
     "postbuild": "node ./node_modules/octopus/scripts/run postbuild devmode",

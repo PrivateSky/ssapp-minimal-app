@@ -5,11 +5,11 @@
 !.gitignore
 !bin
 !bin/**
-!octopus
-!octopus/*
+!code/
+!code/assets/**
 !LICENSE
 !package.json
 !package-lock.json
 !README.md
 !CHANGELOG
-!web-server/secure-channels/wallet-template
+!apihub-root/secure-channels/wallet-template

@@ -1,0 +1,77 @@
+.todo-container {
+    display: grid;
+    gap: 1rem;
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 500px;
+}
+
+.todo-container hr {
+    margin-top: 0;
+}
+.todo-container ul {
+    list-style-position: inside;
+}
+.todo-container input {
+    padding: 0.25rem 0.35rem;
+    border-radius: 0;
+}
+
+.todo-container .addition {
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    margin-bottom: 1rem;
+}
+.todo-container .addition label {
+    margin-bottom: 0;
+}
+.todo-container .addition input {
+    border: 2px solid #cfd7f0;
+    border-radius: 2px;
+}
+
+.todo-container .todos {
+    display: grid;
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+}
+
+.todo-container .todos .todo {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 3.25rem;
+    align-items: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    border-radius: 2px;
+}
+.todo-container .todos .todo > * {
+    height: 100%;
+}
+.todo-container .todos .todo label {
+    cursor: pointer;
+    background: #5e7fe1;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+.todo-container .todos .todo input {
+    border: none;
+    font-style: italic;
+    padding-left: 0.85rem;
+}
+.todo-container .todos .todo input:read-only {
+    background-color: #cfd7f0;
+}
+
+.todo-container footer {
+    padding-top: 0.25rem;
+    font-size: 90%;
+}

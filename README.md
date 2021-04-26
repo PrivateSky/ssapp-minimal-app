@@ -89,7 +89,7 @@ with the following content:
 
 ```html
 <psk-container controller-name="WalletSsappLauncher" data-app-name="my-minimal-app">
-    <psk-ssapp key-ssi="@keySSI"></psk-ssapp>
+    <psk-ssapp key-ssi="@keySSI" landing-path="/home"></psk-ssapp>
 </psk-container>
 ```
 

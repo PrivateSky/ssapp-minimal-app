@@ -1,25 +1,36 @@
-<psk-page>
-    <div class="page-title-container">
-        <psk-label class="page-title" label="To Do App"></psk-label>
-    </div>
+<link rel="stylesheet" href="assets/pages/home.css">
+<webc-container controller="TodoListController" class="todo-container">
+    <header>
+        <h2>TODO Application</h2>
+    </header>
+
     <hr>
-    <psk-container controller-name="TodoListController">
 
-        <div class="todo-container">
-            <!-- Form control for adding a new item -->
-            <div class="todo-row todo-input">
-                <psk-text-input id="todo-creator-field" view-model="item"></psk-text-input>
-            </div>
+    <!-- Adding items -->
+    <section class="addition">
+        <label for="@item.id">Create your TODO:</label>
+        <input data-view-model="@item" data-tag="create-todo">
+    </section>
 
-            <!-- Render each list item from the model -->
-            <psk-for-each id="items-foreach" data-view-model="items">
-                <div class="todo-row">
-                    <psk-checkbox class="item-checkbox" view-model="checkbox"></psk-checkbox>
-                    <psk-text-input class="item-input" view-model="input"></psk-text-input>
-                </div>
-
-                <psk-label slot="no-data">No data available</psk-label>
-            </psk-for-each>
+    <!-- Render each item from the model -->
+    <section class="todos" data-for="@items" data-tag="items">
+        <div class="todo">
+            <label>
+                <input type="checkbox" data-view-model="@checkbox">
+            </label>
+            <input type="text" data-view-model="@input">
         </div>
-    </psk-container>
-</psk-page>
+
+        <div slot="no-data">{{ @no-data }}</div>
+    </section>
+
+    <hr>
+
+    <footer>
+        <strong>HINTs:</strong>
+        <ul>
+            <li tabindex="0">Save: Unfocus or press <code>Tab</code>!</li>
+            <li>Edit: double click on TODO!</li>
+        </ul>
+    </footer>
+</webc-container>

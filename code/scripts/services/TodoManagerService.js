@@ -1,4 +1,4 @@
-import DSUStorage from "../../cardinal/controllers/base-controllers/lib/DSUStorage.js";
+import DSUStorage from "/webcardinal/base/libs/DSUStorage.js";
 
 class TodoManagerService {
 

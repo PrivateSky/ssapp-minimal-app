@@ -1,19 +1,24 @@
-import ContainerController from "../../cardinal/controllers/base-controllers/ContainerController.js";
 import { getTodoManagerServiceInstance } from "../services/TodoManagerService.js";
 
-export default class TodoListController extends ContainerController {
-    constructor(element) {
-        super(element);
+const { Controller } = WebCardinal.controllers;
+
+export default class TodoListController extends Controller {
+    constructor(...props) {
+        super(...props);
+
         this.TodoManagerService = getTodoManagerServiceInstance();
 
         // Set some default values for the view model
-        this.model = this.setModel({
+        this.model = {
             items: [],
             item: {
+                id: 'item',
                 name: 'item',
-                value: ''
-            }
-        });
+                value: '',
+                placeholder: 'Type your item here'
+            },
+            'no-data': 'There are no TODOs'
+        };
 
         // Init the listeners to handle events
         this.initListeners();
@@ -31,14 +36,18 @@ export default class TodoListController extends ContainerController {
         // Select the creating field and add
         // focusout event listener
         // This is used for creating new todo elements
-        let todoCreatorField = this.element.querySelector('#todo-creator-field');
-        todoCreatorField.addEventListener("focusout", this._mainInputBlurHandler)
+        const todoCreatorElement = this.getElementByTag('create-todo');
+        if (todoCreatorElement) {
+            todoCreatorElement.addEventListener("focusout", this._mainInputBlurHandler);
+        }
 
         // Selecting the parent of all the items and add the event listeners
-        let itemsForeachFields = this.element.querySelector('#items-foreach');
-        itemsForeachFields.addEventListener("focusout", this._blurHandler)
-        itemsForeachFields.addEventListener("click", this._changeToDoCheckedState)
-        itemsForeachFields.addEventListener("dblclick", this._doubleClickHandler)
+        const itemsElement = this.getElementByTag('items');
+        if (itemsElement) {
+            itemsElement.addEventListener("focusout", this._blurHandler)
+            itemsElement.addEventListener("click", this._changeToDoCheckedState)
+            itemsElement.addEventListener("dblclick", this._doubleClickHandler)
+        }
     }
 
     populateItemList(callback) {

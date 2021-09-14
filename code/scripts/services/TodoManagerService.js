@@ -1,11 +1,11 @@
-import DSUStorage from "/webcardinal/base/libs/DSUStorage.js";
+
 
 class TodoManagerService {
 
-    constructor() {
+    constructor(storage) {
         const HostBootScript = require("boot-host").HostBootScript;
         new HostBootScript("category-manager-service");
-        this.DSUStorage = new DSUStorage();
+        this.DSUStorage = storage;
     }
 
     createToDo(todo, callback) {
@@ -25,8 +25,11 @@ class TodoManagerService {
     }
 }
 
-let todoManagerService = new TodoManagerService();
-let getTodoManagerServiceInstance = function () {
+let todoManagerService;
+let getTodoManagerServiceInstance = function (controllerInstance) {
+    if(!todoManagerService){
+        todoManagerService = new TodoManagerService(controllerInstance.getWalletStorage());
+    }
     return todoManagerService;
 }
 

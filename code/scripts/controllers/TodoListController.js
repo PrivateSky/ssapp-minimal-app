@@ -5,8 +5,7 @@ const { Controller } = WebCardinal.controllers;
 export default class TodoListController extends Controller {
     constructor(...props) {
         super(...props);
-
-        this.TodoManagerService = getTodoManagerServiceInstance();
+        this.TodoManagerService = getTodoManagerServiceInstance(this);
 
         // Set some default values for the view model
         this.model = {
@@ -169,7 +168,12 @@ export default class TodoListController extends Controller {
     }
 
     setItemsClean = (newItems) => {
+        if(newItems){
         // Set the model fresh, without proxies
-        this.model.items = JSON.parse(JSON.stringify(newItems))
+            this.model.items = JSON.parse(JSON.stringify(newItems))
+        }
+        else{
+            this.model.items = [];
+        }
     }
 }

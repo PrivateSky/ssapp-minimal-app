@@ -7,107 +7,132 @@ let mainDSU;
 
 $$.swarms.describe('toDoSwarm', {
     start: function (data) {
-        this.__initMainDSU();
         this.createToDo(data);
     },
 
     createToDo: function (data) {
-        this.__initMainDSU();
-        const keyssiSpace = openDSU.loadApi("keyssi");
-        mainDSU.getKeySSI((err, ssi) => {
+        this.__initMainDSU((err, mainDSU)=> {
             if (err) {
                 console.error(err);
                 return this.return(err);
             }
-            const templateSSI = keyssiSpace.buildTemplateSeedSSI(keyssiSpace.parse(ssi).getDLDomain());
-            keyssiresolver.createDSU(templateSSI, (err, newDossier) => {
+            const keyssiSpace = openDSU.loadApi("keyssi");
+            mainDSU.getKeySSI((err, ssi) => {
                 if (err) {
                     console.error(err);
                     return this.return(err);
                 }
-                newDossier.writeFile('/data', JSON.stringify(data), (err, digest) => {
+                const templateSSI = keyssiSpace.buildTemplateSeedSSI(keyssiSpace.parse(ssi).getDLDomain());
+                keyssiresolver.createDSU(templateSSI, (err, newDossier) => {
                     if (err) {
                         console.error(err);
                         return this.return(err);
                     }
-                    newDossier.getKeySSI((err, keySSI) => {
+                    newDossier.writeFile('/data', JSON.stringify(data), (err, digest) => {
                         if (err) {
+                            console.error(err);
                             return this.return(err);
                         }
-                        this.mountDossier(mainDSU, TODO_MOUNTING_PATH, keySSI)
+                        newDossier.getKeySSI((err, keySSI) => {
+                            if (err) {
+                                return this.return(err);
+                            }
+                            this.mountDossier(mainDSU, TODO_MOUNTING_PATH, keySSI)
+                        });
                     });
                 });
+            });
+        })
+    },
+
+    editToDo: function (editedToDo) {
+        this.__initMainDSU((err, mainDSU)=> {
+            if (err) {
+                console.error(err);
+                return this.return(err);
+            }
+            this.__listToDos((err, todos) => {
+                if (err) {
+                    return this.return(err);
+                }
+                let wantedToDo = todos.find(todo => todo.path === editedToDo.path);
+                if (!wantedToDo) {
+                    return this.return(new Error('Todo with path ' + editedToDo.path + ' not found.'));
+                }
+
+                keyssiresolver.loadDSU(wantedToDo.identifier, (err, todoDossier) => {
+                    if (err) {
+                        return this.return(err);
+                    }
+                    todoDossier.writeFile('/data', JSON.stringify(editedToDo), this.return);
+                })
             });
         });
     },
 
-    editToDo: function (editedToDo) {
-        this.__initMainDSU();
-        this.__listToDos((err, todos) => {
+    listToDos: function () {
+        this.__initMainDSU((err, mainDSU)=> {
             if (err) {
+                console.error(err);
                 return this.return(err);
             }
-            let wantedToDo = todos.find(todo => todo.path === editedToDo.path);
-            if (!wantedToDo) {
-                return this.return(new Error('Todo with path ' + editedToDo.path + ' not found.'));
-            }
-
-            keyssiresolver.loadDSU(wantedToDo.identifier, (err, todoDossier) => {
+            this.__listToDos((err, data) => {
                 if (err) {
                     return this.return(err);
                 }
-                todoDossier.writeFile('/data', JSON.stringify(editedToDo), this.return);
-            })
-        });
-    },
-
-    listToDos: function () {
-        this.__initMainDSU();
-        this.__listToDos((err, data) => {
-            if (err) {
-                return this.return(err);
-            }
-            this.return(err, data);
-        });
+                this.return(err, data);
+            });
+        })
     },
 
     __listToDos: function (callback) {
-        mainDSU.readDir(TODO_MOUNTING_PATH, (err, applications) => {
+        this.__initMainDSU((err, mainDSU)=> {
             if (err) {
-                return callback(err);
+                console.error(err);
+                return this.return(err);
             }
-            let toBeReturned = [];
+            mainDSU.readDir(TODO_MOUNTING_PATH, (err, applications) => {
+                if (err) {
+                    return callback(err);
+                }
+                let toBeReturned = [];
 
-            let getToDos = (todo) => {
-                let appPath = TODO_MOUNTING_PATH + '/' + todo.path;
-                mainDSU.readFile(appPath + '/data', (err, fileContent) => {
-                    toBeReturned.push({
-                        ...JSON.parse(fileContent),
-                        path: appPath,
-                        identifier: todo.identifier
+                let getToDos = (todo) => {
+                    let appPath = TODO_MOUNTING_PATH + '/' + todo.path;
+                    mainDSU.readFile(appPath + '/data', (err, fileContent) => {
+                        toBeReturned.push({
+                            ...JSON.parse(fileContent),
+                            path: appPath,
+                            identifier: todo.identifier
+                        });
+                        if (applications.length > 0) {
+                            getToDos(applications.shift())
+                        } else {
+                            return callback(undefined, toBeReturned);
+                        }
                     });
-                    if (applications.length > 0) {
-                        getToDos(applications.shift())
-                    } else {
-                        return callback(undefined, toBeReturned);
-                    }
-                });
-            };
-            if (applications.length > 0) {
-                return getToDos(applications.shift());
-            }
-            return callback(undefined, toBeReturned);
+                };
+                if (applications.length > 0) {
+                    return getToDos(applications.shift());
+                }
+                return callback(undefined, toBeReturned);
+            })
         })
     },
 
     removeToDo(applicationPath) {
-        this.__initMainDSU();
-        mainDSU.unmount(applicationPath, (err, data) => {
+        this.__initMainDSU((err, mainDSU)=> {
             if (err) {
+                console.error(err);
                 return this.return(err);
             }
-            return this.return(err, data);
-        });
+            mainDSU.unmount(applicationPath, (err, data) => {
+                if (err) {
+                    return this.return(err);
+                }
+                return this.return(err, data);
+            });
+        })
     },
 
 
@@ -124,11 +149,12 @@ $$.swarms.describe('toDoSwarm', {
         });
     },
 
-    __initMainDSU: function () {
-        try {
-            mainDSU = securityContext.getMainDSU();
-        } catch (err) {
-            return this.return(err);
-        }
+    __initMainDSU: function (callback) {
+         securityContext.getMainDSU((err, mainDSU)=>{
+             if(err){
+                return callback(err)
+             }
+             return callback(undefined, mainDSU);
+         });
     }
 });

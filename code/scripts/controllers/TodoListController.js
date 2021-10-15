@@ -1,11 +1,22 @@
 import { getTodoManagerServiceInstance } from "../services/TodoManagerService.js";
 
-const { Controller } = WebCardinal.controllers;
+const { WebcController } = WebCardinal.controllers;
 
-export default class TodoListController extends Controller {
+export default class TodoListController extends WebcController {
     constructor(...props) {
         super(...props);
-        this.TodoManagerService = getTodoManagerServiceInstance(this);
+        getTodoManagerServiceInstance(this,(todoService) => {
+            this.TodoManagerService = todoService;
+            // Populate existing todos to item list
+            this.populateItemList((err, data) => {
+                if (err) {
+                    return console.log(err);
+                }
+                this.setItemsClean(data);
+            });
+            // Init the listeners to handle events
+            this.initListeners();
+        });
 
         // Set some default values for the view model
         this.model = {
@@ -19,16 +30,9 @@ export default class TodoListController extends Controller {
             'no-data': 'There are no TODOs'
         };
 
-        // Init the listeners to handle events
-        this.initListeners();
 
-        // Populate existing todos to item list
-        this.populateItemList((err, data) => {
-            if (err) {
-                return console.log(err);
-            }
-            this.setItemsClean(data);
-        });
+
+
     }
 
     initListeners = () => {

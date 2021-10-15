@@ -26,11 +26,21 @@ class TodoManagerService {
 }
 
 let todoManagerService;
-let getTodoManagerServiceInstance = function (controllerInstance) {
+let getTodoManagerServiceInstance = function (controllerInstance, callback) {
     if(!todoManagerService){
-        todoManagerService = new TodoManagerService(controllerInstance.getWalletStorage());
+        controllerInstance.getMainEnclaveDB((err, enclave)=>{
+           if(err){
+               console.log('Could not get main enclave ', err);
+               return
+           }
+            todoManagerService = new TodoManagerService(enclave);
+            return callback(todoManagerService)
+        })
+
+    }else{
+        return callback(todoManagerService);
     }
-    return todoManagerService;
+
 }
 
 export {

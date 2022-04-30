@@ -1,21 +1,22 @@
-import { getTodoManagerServiceInstance } from "../services/TodoManagerService.js";
+import {getTodoManagerServiceInstance} from "../services/TodoManagerService.js";
 
-const { WebcController } = WebCardinal.controllers;
+const {WebcController} = WebCardinal.controllers;
 
 export default class TodoListController extends WebcController {
     constructor(...props) {
         super(...props);
-        getTodoManagerServiceInstance(this,(todoService) => {
+        getTodoManagerServiceInstance(this, (todoService) => {
             this.TodoManagerService = todoService;
             // Populate existing todos to item list
             this.populateItemList((err, data) => {
                 if (err) {
-                    return console.log(err);
+                    return this._handleError(err);
+                } else {
+                    this.setItemsClean(data);
                 }
-                this.setItemsClean(data);
+                // Init the listeners to handle events
+                setTimeout(this.initListeners, 100);
             });
-            // Init the listeners to handle events
-            this.initListeners();
         });
 
         // Set some default values for the view model
@@ -29,9 +30,6 @@ export default class TodoListController extends WebcController {
             },
             'no-data': 'There are no TODOs'
         };
-
-
-
 
     }
 
@@ -54,12 +52,7 @@ export default class TodoListController extends WebcController {
     }
 
     populateItemList(callback) {
-        this.TodoManagerService.listToDos((err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            callback(undefined, data);
-        })
+        this.TodoManagerService.listToDos(callback);
     }
 
     _addNewListItem() {
@@ -80,7 +73,7 @@ export default class TodoListController extends WebcController {
 
         this.TodoManagerService.createToDo(newItem, (err, data) => {
             if (err) {
-                console.log(err);
+                return this._handleError(err);
             }
 
             // Bring the path and the seed to the newItem object
@@ -157,27 +150,47 @@ export default class TodoListController extends WebcController {
 
     todoIsValid(todo) {
         // Check if the todo element is valid or not
-        return !(!todo || !todo.input || !todo.checkbox || !todo.path);
+        return !(!todo || !todo.input || !todo.checkbox);
     }
 
     editListItem(todo) {
-        if(!this.todoIsValid(todo)) {
+        if (!this.todoIsValid(todo)) {
             return;
         }
         this.TodoManagerService.editToDo(todo, (err, data) => {
             if (err) {
-                return console.log(err);
+                return this._handleError(err);
             }
         })
     }
 
     setItemsClean = (newItems) => {
-        if(newItems){
-        // Set the model fresh, without proxies
+        if (newItems) {
+            // Set the model fresh, without proxies
             this.model.items = JSON.parse(JSON.stringify(newItems))
-        }
-        else{
+        } else {
             this.model.items = [];
         }
+    }
+
+    _handleError = (err) => {
+        const message = "Caught this:" + err.message + ". Do you want to try again?"
+        this.showErrorModal(
+            message, // An error or a string, it's your choice
+            'Oh no, an error..',
+            () => {
+                console.log("Let's try a refresh");
+                window.location.reload();
+            },
+            () => {
+                console.log('You choose not to refresh! Good luck...');
+            },
+            {
+                disableExpanding: true,
+                cancelButtonText: 'No',
+                confirmButtonText: 'Yes',
+                id: 'error-modal'
+            }
+        );
     }
 }

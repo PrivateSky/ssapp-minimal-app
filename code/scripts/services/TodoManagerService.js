@@ -1,46 +1,43 @@
-
+const TO_DO_TABLE = "todos";
 
 class TodoManagerService {
 
-    constructor(storage) {
-        const HostBootScript = require("boot-host").HostBootScript;
-        new HostBootScript("category-manager-service");
-        this.DSUStorage = storage;
+    constructor(enclaveDB) {
+        this.enclave = enclaveDB;
     }
 
     createToDo(todo, callback) {
-        $$.interaction.startSwarmAs("test/agent/007", "toDoSwarm", "createToDo", todo).onReturn(callback);
+        this.enclave.insertRecord(TO_DO_TABLE, todo.input.name, todo, callback);
     }
 
     removeToDo(todoPath, callback) {
-        $$.interaction.startSwarmAs("test/agent/007", "toDoSwarm", "removeToDo", todoPath).onReturn(callback);
+        this.enclave.deleteRecord(todo.input.name, callback);
     }
 
     editToDo(todo, callback) {
-        $$.interaction.startSwarmAs("test/agent/007", "toDoSwarm", "editToDo", todo).onReturn(callback);
+        this.enclave.updateRecord(TO_DO_TABLE, todo.input.name, todo, callback);
     }
 
     listToDos(callback) {
-        $$.interaction.startSwarmAs("test/agent/007", "toDoSwarm", "listToDos").onReturn(callback);
+        this.enclave.getAllRecords(TO_DO_TABLE, callback);
     }
 }
 
 let todoManagerService;
 let getTodoManagerServiceInstance = function (controllerInstance, callback) {
-    if(!todoManagerService){
-        controllerInstance.getMainEnclaveDB((err, enclave)=>{
-           if(err){
-               console.log('Could not get main enclave ', err);
-               return
-           }
+    if (!todoManagerService) {
+        controllerInstance.getMainEnclaveDB((err, enclave) => {
+            if (err) {
+                console.log('Could not get main enclave ', err);
+                return callback(err);
+            }
             todoManagerService = new TodoManagerService(enclave);
             return callback(todoManagerService)
         })
 
-    }else{
+    } else {
         return callback(todoManagerService);
     }
-
 }
 
 export {
